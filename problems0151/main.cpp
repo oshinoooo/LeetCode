@@ -5,48 +5,60 @@
 
 using namespace std;
 
-class Solution
-{
+class Solution {
 public:
-    string reverseWords(string s)
-    {
-        string out;
-        bool start = false;
-        int count = 0;
-
-        for (int i = s.size() - 1; i >= 0; --i)
-        {
-            if (s[i] != ' ')
-            {
-                start = true;
-                ++count;
-            }
-            else if (start)
-            {
-                if (!out.empty())
-                    out.push_back(' ');
-                out.append(s.substr(i + 1, count));
-                count = 0;
-                start = false;
-            }
+    string reverseWords1(string s) {
+        vector<string> words;
+        int start = 0;
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] == ' ')
+                start = i + 1;
+            else if (i == s.size() - 1 || s[i + 1] == ' ')
+                words.push_back(s.substr(start, i - start + 1));
         }
 
-        if (s[0] != ' ')
-        {
+        reverse(words.begin(), words.end());
+
+        string out;
+        for (int i = 0; i < words.size(); ++i) {
             if (!out.empty())
-                out.push_back(' ');
-            out.append(s.substr(0, count));
+                out += " ";
+            out += words[i];
         }
 
         return out;
     }
+
+    string reverseWords(string s) {
+        reverse(s.begin(), s.end());
+
+        int curr = 0;
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] != ' ') {
+                if (curr != 0 && i != 0 && s[i - 1] == ' ')
+                    s[curr++] = ' ';
+                s[curr++] = s[i];
+            }
+        }
+
+        s.resize(curr);
+
+        int start = 0;
+        for (int i = 0; i < s.size(); ++i) {
+            if (i == s.size() - 1 || s[i + 1] == ' ') {
+                reverse(s.begin() + start, s.begin() + i + 1);
+                start = i + 2;
+            }
+        }
+
+        return s;
+    }
 };
 
-int main()
-{
-    cout << "------------------" << endl;
+int main() {
+    cout << "--------------------" << endl;
     Solution s;
-    cout << "\"" << s.reverseWords("the sky is blue") << "\"" << endl;
-    cout << "------------------" << endl;
+    cout << s.reverseWords("     the    sky is     blue   ") << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
