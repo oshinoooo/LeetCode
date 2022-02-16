@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 
 using namespace std;
 
@@ -11,7 +13,11 @@ public:
     void caller() {
         unique_lock<mutex> lock(m);
         cout << "caller starts to work" << endl;
-        this_thread::sleep_for(chrono::seconds (5));
+        for (int i = 0; i < 5; ++i) {
+            this_thread::sleep_for(chrono::seconds (1));
+            cout << ".";
+        }
+        cout << endl;
         cout << "caller's work is finished" << endl;
         done = true;
         cv.notify_all();
@@ -21,7 +27,11 @@ public:
         unique_lock<mutex> lock(m);
         cv.wait(lock, [this]{return done;});
         cout << "waiter starts to work" << endl;
-        this_thread::sleep_for(chrono::seconds (5));
+        for (int i = 0; i < 5; ++i) {
+            this_thread::sleep_for(chrono::seconds (1));
+            cout << ".";
+        }
+        cout << endl;
         cout << "waiter's work is finished" << endl;
     }
 
