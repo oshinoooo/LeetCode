@@ -7,21 +7,34 @@ using namespace std;
 class Solution
 {
 public:
-    void nextPermutation(vector<int>& nums)
-    {
-        for (int i = nums.size() - 2; i >= 0 ; --i)
-        {
-            for (int j = nums.size() - 1; j > i; --j)
-            {
-                if (nums[j] > nums[i])
-                {
-                    swap(nums[j], nums[i]);
-                    reverse(nums.begin() + i + 1, nums.end());
-                    return;
-                }
+    void nextPermutation(vector<int>& nums) {
+        int length = nums.size();
+
+        bool found = false;
+        int indexRight = -1;
+        for (int i = length - 1; 1 <= i; --i) {
+            if (nums[i - 1] < nums[i]) {
+                found = true;
+                indexRight = i - 1;
+                break;
             }
         }
-        reverse(nums.begin(), nums.end());
+
+        if (found) {
+            int indexSmall;
+            for (int i = length - 1; 1 <= i; --i) {
+                if (nums[indexRight] < nums[i]) {
+                    indexSmall = i;
+                    break;
+                }
+            }
+
+            swap(nums[indexRight], nums[indexSmall]);
+        }
+
+        sort(nums.begin() + indexRight + 1, nums.end());
+
+        return;
     }
 };
 
