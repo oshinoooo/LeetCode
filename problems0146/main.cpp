@@ -15,7 +15,7 @@
 
 using namespace std;
 
-class doubleList {
+/*class doubleList {
 public:
     doubleList() {
         pre = nullptr;
@@ -101,6 +101,77 @@ private:
     doubleList* head;
     doubleList* tail;
     unordered_map<int, doubleList*> m;
+};*/
+
+struct doubleList {
+    int key;
+    int value;
+
+    doubleList* prev;
+    doubleList* next;
+
+    doubleList() : key(0), value(0), prev(nullptr), next(nullptr) {}
+    doubleList(int k, int v) : key(k), value(v), prev(nullptr), next(nullptr) {}
+    doubleList(int k, int v, doubleList* p, doubleList* n) : key(k), value(v), prev(p), next(n) {}
+};
+
+class LRUCache {
+public:
+    LRUCache(int capacity) {
+        this->capacity = capacity;
+        head = new doubleList();
+        tail = new doubleList();
+        head->next = tail;
+        tail->prev = head;
+    }
+
+    int get(int key) {
+        if (index.count(key)) {
+            doubleList* node = index[key];
+            moveToEnd(node);
+            return index[key]->value;
+        }
+        return -1;
+    }
+
+    void put(int key, int value) {
+        doubleList* node;
+        if (index.count(key)) {
+            node = index[key];
+            node->value = value;
+        }
+        else {
+            if (capacity <= index.size()) {
+                index.erase(head->next->key);
+                head->next = head->next->next;
+                head->next->prev = head;
+            }
+
+            node = new doubleList(key, value);
+            index[key] = node;
+        }
+
+        moveToEnd(node);
+    }
+
+private:
+    void moveToEnd(doubleList* node) {
+        if (node->prev && node->next) {
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+        }
+
+        tail->prev->next = node;
+        node->prev = tail->prev;
+        node->next = tail;
+        tail->prev = node;
+    }
+
+private:
+    int capacity;
+    map<int, doubleList*> index;
+    doubleList* head;
+    doubleList* tail;
 };
 
 int main() {
