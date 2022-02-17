@@ -6,50 +6,23 @@
 
 using namespace std;
 
-class TestThread {
-public:
-    TestThread() : done(false) {}
-
-    void caller() {
-        unique_lock<mutex> lock(m);
-        cout << "caller starts to work" << endl;
-        for (int i = 0; i < 5; ++i) {
-            this_thread::sleep_for(chrono::seconds (1));
-            cout << ".";
-        }
-        cout << endl;
-        cout << "caller's work is finished" << endl;
-        done = true;
-        cv.notify_all();
-    }
-
-    void waiter() {
-        unique_lock<mutex> lock(m);
-        cv.wait(lock, [this]{return done;});
-        cout << "waiter starts to work" << endl;
-        for (int i = 0; i < 5; ++i) {
-            this_thread::sleep_for(chrono::seconds (1));
-            cout << ".";
-        }
-        cout << endl;
-        cout << "waiter's work is finished" << endl;
-    }
-
-private:
-    mutex m;
-    condition_variable cv;
-    bool done;
-};
-
 int main() {
     cout << "----------------------------------------" << endl;
-    TestThread testThread;
 
-    thread t2(&TestThread::waiter, &testThread);
-    thread t1(&TestThread::caller, &testThread);
+    vector<int> nums1 = {0, 1, 2, 3, 4};
 
-    t1.join();
-    t2.join();
+    int nums2[5] = {5, 6, 7, 8, 9};
+
+    int* num3 = new int[5];
+    num3[0] = 0;
+    num3[1] = 0xff;
+    num3[2] = 2;
+    num3[3] = 3;
+    num3[4] = 4;
+
+    int a = 1;
+    int b = 2;
+
     cout << "----------------------------------------" << endl;
     return 0;
 }
