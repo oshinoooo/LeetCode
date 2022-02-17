@@ -1,17 +1,14 @@
 #include <iostream>
+#include <algorithm>
+#include <functional>
 #include <vector>
-#include <map>
 #include <set>
-#include <unordered_map>
 #include <unordered_set>
+#include <map>
+#include <unordered_map>
 #include <stack>
 #include <queue>
 #include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
