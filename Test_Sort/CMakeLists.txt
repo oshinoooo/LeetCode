@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
-project(Test_diff)
+
+project(Test_Sort)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Test_diff main.cpp)
+add_executable(Test_Sort main.cpp)
