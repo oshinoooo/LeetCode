@@ -35,24 +35,21 @@ public:
     }
 
     vector<long long> maximumEvenSplit(long long finalSum) {
-        if (finalSum % 2 == 1 || finalSum <= 4)
+        if (finalSum % 2 == 1)
             return {};
 
-        unordered_map<int, vector<long long>> um;
-        um[2] = {2};
-        um[4] = {4};
-        um[6] = {2, 4};
-        um[8] = {2, 6};
-
-        int num1 = finalSum / 2 - 2;
-        int num2 = finalSum / 2 + 2;
-
         vector<long long> out;
-        for (int i = 2; i < num1; i += 2) {
-
+        long long total = 0;
+        for (long long i = 2; i <= finalSum; i += 2) {
+            if (total + i <= finalSum) {
+                total += i;
+                out.push_back(i);
+            }
+            else {
+                out.back() += finalSum - total;
+                break;
+            }
         }
-
-        out.push_back(num2);
 
         return out;
     }
@@ -102,7 +99,7 @@ int test2() {
 int test3() {
     cout << "---------------------" << endl;
     Solution s;
-    vector<long long> out = s.maximumEvenSplit(12);
+    vector<long long> out = s.maximumEvenSplit(6);
     for (auto num : out)
         cout << num << " ";
     cout << endl;
