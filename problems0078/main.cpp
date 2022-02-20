@@ -24,13 +24,14 @@ public:
     }
 
 private:
-    void mySubsets(vector<int>& nums, int ptr, vector<int>& tmp, vector<vector<int>>& out) {
-        if (nums.size() <= ptr) {
+    void mySubsets(const vector<int>& nums, int ptr, vector<int>& tmp, vector<vector<int>>& out) {
+        if (nums.size() - 1 < ptr) {
             out.push_back(tmp);
             return;
         }
 
         mySubsets(nums, ptr + 1, tmp, out);
+
         tmp.push_back(nums[ptr]);
         mySubsets(nums, ptr + 1, tmp, out);
         tmp.pop_back();
