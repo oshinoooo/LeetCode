@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -85,11 +86,56 @@ int test3() {
     return 0;
 }
 
+class TestPool {
+public:
+    void serve() {
+        unique_lock<mutex> lock(m);
+        conditionVariable.wait(lock, [this](){return !buffer.empty();});
+        string request = buffer.front();
+        buffer.pop();
+        lock.unlock();
+
+        cout << this_thread::get_id() << ": " << request << endl;
+
+        cout << this_thread::get_id() << ": starts to sleep" << endl;
+        this_thread::sleep_for(chrono::seconds(5));
+        cout << this_thread::get_id() << ": wakes up" << endl;
+        cout << "-------------------------------------------------" << endl;
+    }
+
+    void request(string str) {
+        unique_lock<mutex> lock(m);
+        buffer.push(str);
+        conditionVariable.notify_all();
+    }
+
+private:
+    mutex m;
+    condition_variable conditionVariable;
+    queue<string> buffer;
+};
+
+void test4() {
+    TestPool testPool;
+
+    vector<thread> threads;
+    for (int i = 0; i < 5; ++i)
+        threads.push_back(thread(&TestPool::serve, &testPool));
+
+    for (int i = 0; i < 10; ++i) {
+        threads.push_back(thread(&TestPool::request, &testPool, string(50, i + '0')));
+        this_thread::sleep_for(chrono::seconds(3));
+    }
+
+    for (int i = 0; i < threads.size(); ++i)
+        threads[i].join();
+}
+
 int main() {
     cout << "---------------------main()" << endl;
 //    test1();
 //    test2();
-//    this_thread::sleep_for(chrono::seconds(5));
-    test3();
+//    test3();
+    test4();
     cout << "---------------------main()" << endl;
 }
