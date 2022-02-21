@@ -6,26 +6,29 @@ using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> combinationSum(vector<int>& candidates, int target)
-    {
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int> tmp;
         vector<vector<int>> out;
-
-
-
-
-
-
+        myCombinationSum(candidates, target, 0, tmp, out);
         return out;
     }
 
 private:
-    void dfs(vector<int>& candidates, int target, vector<vector<int>>& out, vector<int>& combine, int idx) {
+    void myCombinationSum(const vector<int>& candidates, int target, int index, vector<int>& tmp, vector<vector<int>>& out) {
+        if (0 == target)
+            out.push_back(tmp);
+        else if (0 < target) {
+            tmp.push_back(candidates[index]);
+            myCombinationSum(candidates, target - candidates[index], index, tmp, out);
+            tmp.pop_back();
 
+            ++index;
+//            while (index < candidates.size() && candidates[index - 1] == candidates[index])
+//                ++index;
 
-
-
-
-
+            if (index < candidates.size())
+                myCombinationSum(candidates, target, index, tmp, out);
+        }
     }
 };
 
