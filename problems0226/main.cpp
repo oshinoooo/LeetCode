@@ -5,8 +5,7 @@
 
 using namespace std;
 
-struct TreeNode
-{
+struct TreeNode {
     int val;
     TreeNode *left;
     TreeNode *right;
@@ -15,35 +14,22 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-class Solution
-{
+void showTree(TreeNode* root) {
+    if (root == nullptr) return;
+    showTree(root->left);
+    cout << root->val << " ";
+    showTree(root->right);
+}
+
+class Solution {
 public:
-    TreeNode* invertTree(TreeNode* root)
-    {
-        if (root == nullptr)
-            return nullptr;
-
-        TreeNode* tmp_left = invertTree(root->right);
-        TreeNode* tmp_right = invertTree(root->left);
-        root->left = tmp_left;
-        root->right = tmp_right;
-        return root;
-    }
-
-    void LDR(TreeNode* root)
-    {
-        if (root == nullptr)
-            return;
-        LDR(root->left);
-        cout << root->val << " ";
-        LDR(root->right);
+    TreeNode* invertTree(TreeNode* root) {
+        return nullptr;
     }
 };
 
-int main()
-{
+int main() {
     cout << "---------------------" << endl;
-    Solution s;
     TreeNode* n1 = new TreeNode(1);
     TreeNode* n2 = new TreeNode(2);
     TreeNode* n3 = new TreeNode(3);
@@ -59,8 +45,9 @@ int main()
     n3->left = n6;
     n3->right = n7;
 
+    Solution s;
     TreeNode* n0 = s.invertTree(n1);
-    s.LDR(n0);
+    showTree(n0);
     cout << endl;
     cout << "---------------------" << endl;
     return 0;
