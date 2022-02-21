@@ -35,17 +35,8 @@ public:
         return nums[nums.size() / 2];
     }
 
-    // 投票
-    int majorityElement3(vector<int>& nums) {
-
-
-
-
-        return 0;
-    }
-
     // 优先队列
-    int majorityElement(vector<int>& nums) {
+    int majorityElement3(vector<int>& nums) {
         if (nums.size() == 1)
             return nums[0];
 
@@ -58,6 +49,28 @@ public:
         }
 
         return pq.top();
+    }
+
+    // 投票
+    int majorityElement4(vector<int>& nums) {
+        int candidate = -1;
+        int count = 0;
+
+        for (int num : nums) {
+            if (num == candidate)
+                ++count;
+            else if (--count < 0) {
+                candidate = num;
+                count = 1;
+            }
+        }
+
+        return candidate;
+    }
+
+    // 分治
+    int majorityElement(vector<int>& nums) {
+        return myMajorityElement(nums, 0, nums.size() - 1);
     }
 
 private:
@@ -84,6 +97,31 @@ private:
         nums[tmpHead] = pivot;
         quickSort(nums, head, tmpHead - 1);
         quickSort(nums, tmpHead + 1, tail);
+    }
+
+    int myMajorityElement(vector<int>& nums, int head, int tail) {
+        if (head == tail)
+            return nums[head];
+
+        int mid = (head + tail) / 2;
+        int left_majority = myMajorityElement(nums, head, mid);
+        int right_majority = myMajorityElement(nums, mid + 1, tail);
+
+        if ((tail - head + 1) / 2 < count(nums, left_majority, head, tail))
+            return left_majority;
+
+        if ((tail - head + 1) / 2 < count(nums, right_majority, head, tail))
+            return right_majority;
+
+        return -1;
+    }
+
+    int count(vector<int>& nums, int target, int head, int tail) {
+        int count = 0;
+        for (int i = head; i <= tail; ++i)
+            if (nums[i] == target)
+                ++count;
+        return count;
     }
 };
 
