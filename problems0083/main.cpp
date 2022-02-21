@@ -38,8 +38,7 @@ public:
     }
 };
 
-int main()
-{
+int main() {
     cout << "------------------" << endl;
     ListNode* n1 = new ListNode(1);
     ListNode* n2 = new ListNode(2);
@@ -54,8 +53,7 @@ int main()
 
     Solution s;
     ListNode* out = s.deleteDuplicates(n1);
-    while (out != nullptr)
-    {
+    while (out != nullptr) {
         cout << out->val << " ";
         out = out->next;
     }
