@@ -1,59 +1,51 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
-class Solution
-{
+class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int target)
-    {
-        int left = left_boundary(nums, target);
-
-        if (left == -1)
+    vector<int> searchRange(vector<int>& nums, int target) {
+//        int tmp1 = lower_bound(nums.begin(), nums.end(), target).base() - nums.begin().base();
+//        int tmp2 = lower_bound(nums.begin(), nums.end(), target + 1).base() - nums.begin().base();
+        int tmp1 = lowerBound(nums, target);
+        int tmp2 = lowerBound(nums, target + 1);
+        if (tmp1 == tmp2)
             return {-1, -1};
-
-        int i;
-        for (i = left; i < nums.size(); ++i)
-        {
-            if (nums[left] != nums[i])
-                break;
-        }
-        return {left, i - 1};
+        return {tmp1, tmp2 - 1};
     }
 
 private:
-    int left_boundary(vector<int>& nums, int target)
-    {
-        int ptr1 = 0;
-        int ptr2 = nums.size();
+    int lowerBound(const vector<int>& nums, const int target) {
+        int n = nums.size();
 
-        while (ptr1 < ptr2)
-        {
+        int ptr1 = 0;
+        int ptr2 = n - 1;
+        while (ptr1 <= ptr2) {
             int mid = (ptr1 + ptr2) / 2;
+
             if (nums[mid] == target)
-                ptr2 = mid;
+                ptr2 = mid - 1;
             else if (nums[mid] < target)
                 ptr1 = mid + 1;
-            else if (nums[mid] > target)
-                ptr2 = mid;
+            else
+                ptr2 = mid - 1;
         }
-
-        if (ptr1 == nums.size() || nums[ptr1] != target)
-            return -1;
 
         return ptr1;
     }
 };
 
-int main()
-{
-    cout << "---------------" << endl;
+int main() {
+    cout << "--------------------" << endl;
     Solution s;
-    vector<int> nums = {1};
-    int target = 1;
+    vector<int> nums = {0, 1, 1, 2, 2, 3, 3, 5};
+    int target = 2;
     vector<int> out = s.searchRange(nums, target);
-    cout << out[0] << " " << out[1] << endl;
-    cout << "---------------" << endl;
+    for (auto num : out)
+        cout << num << " ";
+    cout << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
