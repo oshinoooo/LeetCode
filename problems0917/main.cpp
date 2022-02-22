@@ -14,27 +14,29 @@ using namespace std;
 
 class Solution {
 public:
-    int findMin(vector<int>& nums) {
+    string reverseOnlyLetters(string s) {
         int ptr1 = 0;
-        int ptr2 = nums.size() - 1;
+        int ptr2 = s.size() - 1;
 
         while (ptr1 < ptr2) {
-            int mid = (ptr1 + ptr2) / 2;
-            if (nums[mid] < nums[ptr2])
-                ptr2 = mid;
-            else
-                ptr1 = mid + 1;
+            if (isalpha(s[ptr1]) && isalpha(s[ptr2]))
+                swap(s[ptr1++], s[ptr2--]);
+
+            if (!isalpha(s[ptr1]))
+                ++ptr1;
+
+            if (!isalpha(s[ptr2]))
+                --ptr2;
         }
 
-        return nums[ptr1];
+        return s;
     }
 };
 
 int main() {
     cout << "--------------------" << endl;
     Solution s;
-    vector<int> nums = {2, 1};
-    cout << s.findMin(nums) << endl;
+    cout << s.reverseOnlyLetters("Test1ng-Leet=code-Q!") << endl;
     cout << "--------------------" << endl;
     return 0;
 }
