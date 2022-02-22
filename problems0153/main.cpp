@@ -20,20 +20,26 @@ public:
 
         while (ptr1 < ptr2) {
             int mid = (ptr1 + ptr2) / 2;
-            if (nums[ptr1] < nums[mid])
+
+            // 顺序
+            if (nums[ptr1] <= nums[mid] && nums[mid] <= nums[ptr2])
+                return nums[ptr1];
+
+            // 逆序
+            if (nums[ptr1] <= nums[mid] && nums[mid] >= nums[ptr2])
                 ptr1 = mid + 1;
-            else
-                ptr2 = mid - 1;
+            else if (nums[ptr1] >= nums[mid] && nums[mid] <= nums[ptr2])
+                ptr2 = mid;
         }
 
-        return ptr1;
+        return nums[ptr1];
     }
 };
 
 int main() {
     cout << "--------------------" << endl;
     Solution s;
-    vector<int> nums = {3,4,5,1,2};
+    vector<int> nums = {2, 1};
     cout << s.findMin(nums) << endl;
     cout << "--------------------" << endl;
     return 0;
