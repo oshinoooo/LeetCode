@@ -16,31 +16,20 @@ struct TreeNode {
 
 class Solution {
 public:
-    bool isSymmetric(TreeNode* root) {
+    bool isSymmetric1(TreeNode* root) {
         return myIsSymmetric(root, root);
     }
 
-private:
-    bool myIsSymmetric1(TreeNode* left, TreeNode* right) {
-        if (!left && !right)
-            return true;
-        if (!left || !right)
-            return false;
-        if (left->val != right->val)
-            return false;
-
-        return myIsSymmetric(left->left, right->right) && myIsSymmetric(left->right, right->left);
-    }
-
-    bool myIsSymmetric(TreeNode* left, TreeNode* right) {
+    bool isSymmetric(TreeNode* root) {
         queue<TreeNode*> que;
-        que.push(left);
-        que.push(right);
+        que.push(root);
+        que.push(root);
 
         while (!que.empty()) {
-            left = que.front();
+            TreeNode* left = que.front();
             que.pop();
-            right = que.front();
+
+            TreeNode* right = que.front();
             que.pop();
 
             if (!left && !right)
@@ -51,12 +40,22 @@ private:
 
             que.push(left->left);
             que.push(right->right);
-
             que.push(left->right);
             que.push(right->left);
         }
 
         return true;
+    }
+
+private:
+    bool myIsSymmetric(TreeNode* left, TreeNode* right) {
+        if (!left && !right)
+            return true;
+
+        if (!left || !right || left->val != right->val)
+            return false;
+
+        return myIsSymmetric(left->left, right->right) && myIsSymmetric(left->right, right->left);
     }
 };
 
