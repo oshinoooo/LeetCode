@@ -1,51 +1,36 @@
 #include <iostream>
+#include <algorithm>
+#include <functional>
 #include <vector>
+#include <set>
+#include <unordered_set>
+#include <map>
+#include <unordered_map>
 #include <stack>
+#include <queue>
+#include <deque>
 
 using namespace std;
 
-class Solution
-{
+class Solution {
 public:
-    int uniquePaths1(int m, int n)
-    {
-        return arrive(m, n, 0, 0);
-    }
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> matrix(m + 1, vector<int>(n + 1, 0));
+        matrix[0][1] = 1;
 
-    int uniquePaths(int m, int n)
-    {
-        vector<vector<int>> f(m, vector<int>(n));
-        for (int i = 0; i < m; ++i)
-            f[i][0] = 1;
-        for (int i = 0; i < n; ++i)
-            f[0][i] = 1;
-
-        for (int i = 1; i < m; ++i)
-        {
-            for (int j = 1; j < n; ++j)
-                f[i][j] = f[i - 1][j] + f[i][j - 1];
+        for (int i = 1; i < m + 1; ++i) {
+            for (int j = 1; j < n + 1; ++j)
+                matrix[i][j] = matrix[i - 1][j] + matrix[i][j - 1];
         }
-        return f[m - 1][n - 1];
-    }
 
-private:
-    int arrive(int m, int n, int row, int cal)
-    {
-        if (row >= m || cal >= n)
-            return 0;
-
-        if (row == m - 1 && cal == n - 1)
-            return 1;
-
-        return arrive(m, n, row, cal + 1) + arrive(m, n, row + 1, cal);
+        return matrix.back().back();
     }
 };
 
-int main()
-{
-    cout << "-----------------" << endl;
+int main() {
+    cout << "--------------------" << endl;
     Solution s;
-    cout << s.uniquePaths(3, 3) << endl;
-    cout << "-----------------" << endl;
+    cout << s.uniquePaths(3, 7) << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
