@@ -21,21 +21,25 @@ public:
         vector<string> nums;
         string tmp;
         for (int i = 0; i < queryIP.size(); ++i) {
-            if (isalnum(queryIP[i])) {
+            if (isalnum(queryIP[i]))
                 tmp.push_back(queryIP[i]);
+            else {
+                nums.push_back(tmp);
+                tmp.clear();
+
+                if (queryIP[i] == '.')
+                    ipv4 = true;
+                else if (queryIP[i] == ':')
+                    ipv6 = true;
+                else
+                    return "Neither";
             }
-            else if (queryIP[i] == '.')
-                ipv4 = true;
-            else if (queryIP[i] == ':')
-                ipv6 = true;
-            else
-                return "Neither";
         }
 
-        if (isIPv4(queryIP))
+        if (ipv4 && isIPv4(queryIP))
             return "IPv4";
 
-        if (isIPv6(queryIP))
+        if (ipv6 && isIPv6(queryIP))
             return "IPv6";
 
         return "Neither";
