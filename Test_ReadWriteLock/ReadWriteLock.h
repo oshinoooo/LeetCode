@@ -12,7 +12,9 @@ using namespace std;
 
 class ReadWriteLock {
 public:
-    ReadWriteLock(bool isPreferWriter = false) : preferWriter(isPreferWriter) {}
+    ReadWriteLock() : preferWriter(false) {}
+
+    ReadWriteLock(bool isPreferWriter) : preferWriter(isPreferWriter) {}
 
     void readLock() {
         unique_lock<mutex>lock(mx);
