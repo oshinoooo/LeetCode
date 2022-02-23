@@ -20,20 +20,20 @@ public:
         int minSpeed = 1;
         int maxSpeed = INT_MAX;
 
-        while (minSpeed < maxSpeed) {
+        while (minSpeed <= maxSpeed) {
             int curSpeed = minSpeed + (maxSpeed - minSpeed) / 2;
 
-            long long totalTime = 0;
-            for (auto& num : piles)
+            int totalTime = 0;
+            for (const auto& num : piles)
                 totalTime += num / curSpeed + (num % curSpeed ? 1 : 0);
 
-            if (totalTime <= h)
-                maxSpeed = curSpeed;
-            else
+            if (h < totalTime)
                 minSpeed = curSpeed + 1;
+            else
+                maxSpeed = curSpeed - 1;
         }
 
-        return maxSpeed;
+        return minSpeed;
     }
 };
 
