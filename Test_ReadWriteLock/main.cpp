@@ -1,8 +1,8 @@
-#include<iostream>
-#include<vector>
-#include<thread>
+#include <iostream>
+#include <vector>
+#include <thread>
 
-#include"ReadWriteLock.h"
+#include "ReadWriteLock.h"
 
 using namespace std;
 

@@ -5,51 +5,54 @@
 #ifndef TEST_READWRITELOCK_READWRITELOCK_H
 #define TEST_READWRITELOCK_READWRITELOCK_H
 
-#include<mutex>
-#include<condition_variable>
+#include <mutex>
+#include <condition_variable>
+
+using namespace std;
 
 class ReadWriteLock {
-private:
-    int readWaiting = 0;  //等待读
-    int writeWaiting = 0; //等待写
-    int reading = 0; //正在读
-    int writing = 0;  //正在写
-    std::mutex mx;
-    std::condition_variable cond;
-    bool preferWriter;  //偏向读
 public:
-    ReadWriteLock(bool isPreferWriter = false) :preferWriter(isPreferWriter) {}
+    ReadWriteLock(bool isPreferWriter = false) : preferWriter(isPreferWriter) {}
 
     void readLock() {
-        std::unique_lock<std::mutex>lock(mx);
+        unique_lock<mutex>lock(mx);
         ++readWaiting;
         cond.wait(lock, [&]() {return writing <= 0 && (!preferWriter || writeWaiting <= 0); });
         ++reading;
         --readWaiting;
     }
 
+    void readUnLock() {
+        unique_lock<mutex>lock(mx);
+        --reading;
+        if(reading<=0)
+            cond.notify_one();
+    }
+
     void writeLock() {
-        std::unique_lock<std::mutex>lock(mx);
+        unique_lock<mutex>lock(mx);
         ++writeWaiting;
         cond.wait(lock, [&]() {return reading <= 0 && writing <= 0; });
         ++writing;
         --writeWaiting;
     }
 
-    void readUnLock() {
-        std::unique_lock<std::mutex>lock(mx);
-        --reading;
-        //当前没有读者时，唤醒一个写者
-        if(reading<=0)
-            cond.notify_one();
-    }
-
     void writeUnLock() {
-        std::unique_lock<std::mutex>lock(mx);
+        unique_lock<mutex>lock(mx);
         --writing;
-        //唤醒所有读者、写者
         cond.notify_all();
     }
+
+private:
+    int readWaiting = 0;
+    int writeWaiting = 0;
+    int reading = 0;
+    int writing = 0;
+
+    bool preferWriter;
+
+    mutex mx;
+    condition_variable cond;
 };
 
 #endif //TEST_READWRITELOCK_READWRITELOCK_H
