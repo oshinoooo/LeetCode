@@ -19,7 +19,14 @@ public:
     void readLock() {
         unique_lock<mutex>lock(mx);
         ++readWaiting;
-        cond.wait(lock, [&]() {return writing <= 0 && (!preferWriter || writeWaiting <= 0); });
+
+        cond.wait(lock, [&]() {
+            if (0 < writing || (preferWriter && 0 < writeWaiting)) {
+                return false;
+            }
+            return true;
+        });
+
         ++reading;
         --readWaiting;
     }
@@ -27,14 +34,18 @@ public:
     void readUnLock() {
         unique_lock<mutex>lock(mx);
         --reading;
-        if(reading<=0)
+        if(reading <= 0)
             cond.notify_one();
     }
 
     void writeLock() {
         unique_lock<mutex>lock(mx);
         ++writeWaiting;
-        cond.wait(lock, [&]() {return reading <= 0 && writing <= 0; });
+
+        cond.wait(lock, [&]() {
+            return reading <= 0 && writing <= 0;
+        });
+
         ++writing;
         --writeWaiting;
     }
