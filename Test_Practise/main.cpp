@@ -1,19 +1,43 @@
 #include<bits/stdc++.h>
+#include<thread>
 
 using namespace std;
 
+class TestPrint{
+public:
+    TestPrint() : ptr(0), str("12345"), printCount(100) {}
+
+    void show(int i) {
+        while (0 < printCount) {
+            unique_lock<mutex> lock(m);
+            cv.wait(lock, [&](){return ptr % 5 == i || 0 == printCount;});
+            if (printCount == 0)
+                return;
+            cout << "thread id: " << i << ", " << str[ptr] << ", count: " << printCount << endl;
+            ptr = (ptr + 1) % 5;
+            --printCount;
+            cv.notify_all();
+        }
+    }
+
+private:
+    int ptr;
+    const string str;
+    int printCount;
+    mutex m;
+    condition_variable cv;
+};
+
 int main() {
     cout << "----------------------------------------" << endl;
-    int a[5] = {1, 2, 3, 4, 5};
-    int* ptr = (int*)(&a + 1);
+    TestPrint testPrint;
 
-    cout << a << endl;
-    cout << *a << endl;
-    cout << *(a + 1) << endl;
-    cout << &a << endl;
-    cout << &a + 1 << endl;
+    vector<thread> threads;
+    for (int i = 0; i < 5; ++i)
+        threads.push_back(thread(&TestPrint::show, &testPrint, i));
 
-    printf("%d, %d\n", *(a + 1), *(ptr - 1));
+    for (int i = 0; i < threads.size(); ++i)
+        threads[i].join();
     cout << "----------------------------------------" << endl;
     return 0;
 }
