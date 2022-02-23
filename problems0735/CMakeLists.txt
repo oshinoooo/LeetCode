@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
-
-project(offerii0073)
+project(problems0735)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(offerii0073 main.cpp)
+add_executable(problems0735 main.cpp)
