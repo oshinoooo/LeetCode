@@ -146,7 +146,6 @@ public:
             });
 
             cout << "thread id: " << i << ", " << str[ptr] << ", count: " << printCount << endl;
-
             if (i == 4) cout << "========================================" << endl;
 
             ptr = (ptr + 1) % 5;
