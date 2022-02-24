@@ -4,6 +4,7 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include <atomic>
 
 using namespace std;
 
@@ -19,6 +20,31 @@ public:
 private:
     mutex mux;
 };
+
+int test1() {
+    cout << "----------------------------------------" << endl;
+    TestThread object;
+
+    vector<thread> threads;
+    for (int i = 0; i < 5; ++i)
+        threads.push_back(thread(&TestThread::show, &object));
+
+    for (int i = 0; i < threads.size(); ++i)
+        threads[i].join();
+
+    cout << "----------------------------------------" << endl;
+    return 0;
+}
+
+int test2() {
+    cout << "----------------------------------------" << endl;
+    TestThread object;
+    thread t = thread(&TestThread::show, &object);
+    t.detach();
+    this_thread::sleep_for(chrono::seconds(1));
+    cout << "----------------------------------------" << endl;
+    return 0;
+}
 
 class TestYield {
 public:
@@ -46,72 +72,8 @@ private:
     atomic<bool> ready;
 };
 
-class TestPrint{
-public:
-    TestPrint() : ptr(0), str("12345"), printCount(100) {}
-
-    void show(int i) {
-        while (0 < printCount) {
-            unique_lock<mutex> lock(m);
-            cv.wait(lock, [&](){return ptr % 5 == i || 0 == printCount;});
-            if (printCount == 0)
-                return;
-            cout << "thread id: " << i << ", " << str[ptr] << ", count: " << printCount << endl;
-            ptr = (ptr + 1) % 5;
-            --printCount;
-            cv.notify_all();
-        }
-    }
-
-private:
-    int ptr;
-    const string str;
-    int printCount;
-    mutex m;
-    condition_variable cv;
-};
-
-int test5() {
-    cout << "----------------------------------------" << endl;
-    TestPrint testPrint;
-
-    vector<thread> threads;
-    for (int i = 0; i < 5; ++i)
-        threads.push_back(thread(&TestPrint::show, &testPrint, i));
-
-    for (int i = 0; i < threads.size(); ++i)
-        threads[i].join();
-    cout << "----------------------------------------" << endl;
-    return 0;
-}
-
-int test1() {
-    cout << "---------------------test1()" << endl;
-    TestThread object;
-
-    vector<thread> threads;
-    for (int i = 0; i < 5; ++i)
-        threads.push_back(thread(&TestThread::show, &object));
-
-    for (int i = 0; i < threads.size(); ++i)
-        threads[i].join();
-
-    cout << "---------------------test1()" << endl;
-    return 0;
-}
-
-int test2() {
-    cout << "---------------------test2()" << endl;
-    TestThread object;
-    thread t = thread(&TestThread::show, &object);
-    t.detach();
-    this_thread::sleep_for(chrono::seconds(1));
-    cout << "---------------------test2()" << endl;
-    return 0;
-}
-
 int test3() {
-    cout << "---------------------test3()" << endl;
+    cout << "----------------------------------------" << endl;
     TestYield object;
 
     vector<thread> threads;
@@ -123,7 +85,7 @@ int test3() {
     for (int i = 0; i < threads.size(); ++i)
         threads[i].join();
 
-    cout << "---------------------test3()" << endl;
+    cout << "----------------------------------------" << endl;
     return 0;
 }
 
@@ -141,7 +103,7 @@ public:
         cout << this_thread::get_id() << ": starts to sleep" << endl;
         this_thread::sleep_for(chrono::seconds(5));
         cout << this_thread::get_id() << ": wakes up" << endl;
-        cout << "-------------------------------------------------" << endl;
+        cout << "----------------------------------------" << endl;
     }
 
     void request(string str) {
@@ -172,11 +134,55 @@ void test4() {
         threads[i].join();
 }
 
+class TestPrint {
+public:
+    TestPrint() : ptr(0), str("12345"), printCount(100) {}
+
+    void show(int i) {
+        unique_lock<mutex> lock(m);
+        while ((5 - i) <= printCount) {
+            cv.wait(lock, [&]() {
+                return ptr % 5 == i;
+            });
+
+            cout << "thread id: " << i << ", " << str[ptr] << ", count: " << printCount << endl;
+
+            if (i == 4) cout << "========================================" << endl;
+
+            ptr = (ptr + 1) % 5;
+            --printCount;
+            cv.notify_all();
+        }
+    }
+
+private:
+    int ptr;
+    const string str;
+    int printCount;
+    mutex m;
+    condition_variable cv;
+};
+
+int test5() {
+    cout << "----------------------------------------" << endl;
+    TestPrint testPrint;
+
+    vector<thread> threads;
+    for (int i = 0; i < 5; ++i)
+        threads.push_back(thread(&TestPrint::show, &testPrint, i));
+
+    for (int i = 0; i < threads.size(); ++i)
+        threads[i].join();
+    cout << "----------------------------------------" << endl;
+    return 0;
+}
+
 int main() {
-    cout << "---------------------main()" << endl;
+    cout << "----------------------------------------" << endl;
 //    test1();
 //    test2();
 //    test3();
-    test4();
-    cout << "---------------------main()" << endl;
+//    test4();
+    test5();
+    cout << "----------------------------------------" << endl;
 }
