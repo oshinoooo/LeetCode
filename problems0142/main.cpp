@@ -17,10 +17,10 @@ using namespace std;
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
 
 class Solution {
@@ -29,24 +29,25 @@ public:
         if (!head || !head->next)
             return nullptr;
 
-        auto slow = head;
-        auto fast = head->next;
+        ListNode* slow = head;
+        ListNode* fast = head->next;
 
-        while (fast != slow) {
+        while (slow != fast) {
+            slow = slow->next;
             if (!fast || !fast->next)
                 return nullptr;
-            slow = slow->next;
             fast = fast->next->next;
         }
 
-        fast = head;
         slow = slow->next;
-        while (fast != slow) {
-            fast = fast->next;
+        ListNode* curr = head;
+
+        while (slow != curr) {
             slow = slow->next;
+            curr = curr->next;
         }
 
-        return fast;
+        return slow;
     }
 };
 
@@ -60,10 +61,10 @@ int main() {
     ListNode* n5 = new ListNode(5);
 
     n1->next = n2;
-//    n2->next = n3;
-//    n3->next = n4;
-//    n4->next = n5;
-    n2->next = n1;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
+    n5->next = n3;
 
     ListNode* n0 = s.detectCycle(n1);
     if (n0) cout << n0->val << endl;
