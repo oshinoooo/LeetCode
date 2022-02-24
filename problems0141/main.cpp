@@ -17,15 +17,15 @@ using namespace std;
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
 
 class Solution {
 public:
-    bool hasCycle1(ListNode *head) {
+    bool hasCycle(ListNode* head) {
         if (!head || !head->next)
             return false;
 
@@ -33,28 +33,17 @@ public:
         ListNode* fast = head->next;
 
         while (slow != fast) {
-            if (!fast || !fast->next)
+            slow = slow->next;
+
+            if (fast)
+                fast = fast->next;
+            else
                 return false;
 
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-
-        return true;
-    }
-
-    bool hasCycle(ListNode *head) {
-        if (!head || !head->next)
-            return false;
-
-        ListNode* slow = head;
-        ListNode* fast = head->next;
-        while (slow != fast) {
-            if (!fast || !fast->next)
+            if (fast)
+                fast = fast->next;
+            else
                 return false;
-
-            slow = slow->next;
-            fast = fast->next->next;
         }
 
         return true;
