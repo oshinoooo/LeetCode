@@ -17,36 +17,14 @@ using namespace std;
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
     ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
 };
 
 class Solution {
 public:
-    void reorderList1(ListNode* head) {
-        vector<ListNode*> nodes;
-        while (head) {
-            nodes.push_back(head);
-            head = head->next;
-        }
-
-        int i = 0;
-        int ptr1 = 0;
-        int ptr2 = nodes.size() - 1;
-        ListNode* cur = new ListNode();
-        while (ptr1 <= ptr2) {
-            if (i++ % 2 == 0)
-                cur->next = nodes[ptr1++];
-            else
-                cur->next = nodes[ptr2--];
-
-            cur = cur->next;
-            cur->next = nullptr;
-        }
-    }
-
     void reorderList(ListNode* head) {
         if (!head || !head->next)
             return;
@@ -63,43 +41,43 @@ private:
             prev = slow;
             slow = slow->next;
             fast = fast->next;
-
             if (fast)
                 fast = fast->next;
         }
 
         prev->next = nullptr;
-
         return slow;
     }
 
     ListNode* reverse(ListNode* head) {
-        ListNode* newHead = new ListNode();
-
-        while (head) {
-            auto tmp = newHead->next;
-            newHead->next = head;
-            head = head->next;
-            newHead->next->next = tmp;
-        }
-
-        return newHead->next;
+        if (!head || !head->next)
+            return head;
+        ListNode* newHead = reverse(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return newHead;
     }
 
-    ListNode* merge(ListNode* head1, ListNode* head2) {
+    ListNode* merge(ListNode* head1,ListNode* head2) {
         ListNode* newHead = new ListNode();
-
         ListNode* curr = newHead;
-        while (head1 || head2) {
-            if (head1) {
-                curr->next = head1;
-                curr = curr->next;
-                head1 = head1->next;
-            }
+        ListNode* ptr1 = head1;
+        ListNode* ptr2 = head2;
 
-            curr->next = head2;
+        while (ptr1 && ptr2) {
+            curr->next = ptr1;
+            ptr1 = ptr1->next;
             curr = curr->next;
-            head2 = head2->next;
+
+            curr->next = ptr2;
+            ptr2 = ptr2->next;
+            curr = curr->next;
+        }
+
+        if (ptr2) {
+            curr->next = ptr2;
+            ptr2 = ptr2->next;
+            curr = curr->next;
         }
 
         return newHead->next;
@@ -116,6 +94,7 @@ int main() {
     ListNode* n6 = new ListNode(6);
     ListNode* n7 = new ListNode(7);
     ListNode* n8 = new ListNode(8);
+    ListNode* n9 = new ListNode(9);
 
     n1->next = n2;
     n2->next = n3;
@@ -124,6 +103,7 @@ int main() {
     n5->next = n6;
     n6->next = n7;
     n7->next = n8;
+    n8->next = n9;
 
     Solution s;
     s.reorderList(n1);
