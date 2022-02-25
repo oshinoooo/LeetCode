@@ -37,8 +37,16 @@ public:
             return 0;
         vector<int> dp = {1, 1};
         for (int i = 1; i < s.size(); ++i) {
-            int tmp = dp[dp.size() - 1];
-            if (s[i] != '0' && ((s[i - 1] - '0') * 10 + s[i] - '0' <= 26))
+            int tmp;
+            if (s[i] == '0') {
+                tmp = dp[dp.size() - 2];
+            }
+            else {
+                tmp = dp[dp.size() - 1];
+                if (s[i - 2])
+            }
+
+            if (s[i] != '0' && s[i - 1] != '0' && ((s[i - 1] - '0') * 10 + s[i] - '0' <= 26))
                 tmp += dp[dp.size() - 2];
             dp.push_back(tmp);
         }
@@ -49,7 +57,7 @@ public:
 int main() {
     cout << "--------------------" << endl;
     Solution s;
-    cout << s.numDecodings("12") << endl;
+    cout << s.numDecodings("2101") << endl;
     cout << "--------------------" << endl;
     return 0;
 }
