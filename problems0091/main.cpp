@@ -14,7 +14,7 @@ using namespace std;
 
 class Solution {
 public:
-    int numDecodings(string s) {
+    int numDecodings1(string s) {
         int n = s.size();
         vector<int> dp(n + 1);
         dp[0] = 1;
@@ -31,12 +31,25 @@ public:
 
         return dp[n];
     }
+
+    int numDecodings(string s) {
+        if (s[0] == '0')
+            return 0;
+        vector<int> dp = {1, 1};
+        for (int i = 1; i < s.size(); ++i) {
+            int tmp = dp[dp.size() - 1];
+            if (s[i] != '0' && ((s[i - 1] - '0') * 10 + s[i] - '0' <= 26))
+                tmp += dp[dp.size() - 2];
+            dp.push_back(tmp);
+        }
+        return dp.back();
+    }
 };
 
 int main() {
     cout << "--------------------" << endl;
     Solution s;
-    cout << s.numDecodings("11106") << endl;
+    cout << s.numDecodings("12") << endl;
     cout << "--------------------" << endl;
     return 0;
 }
