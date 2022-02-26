@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 
 using namespace std;
 
@@ -28,21 +30,6 @@ private:
     mutex m;
     condition_variable cv;
 };
-
-int a = 5;
-int lock;
-int cond;
-
-void fool() {
-    while (0 < a) {
-
-        thread_wait(lock, cond);
-
-        if (satisfied) {
-
-        }
-    }
-}
 
 int main() {
     cout << "----------------------------------------" << endl;
