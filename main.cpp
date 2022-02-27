@@ -12,7 +12,7 @@
 
 using namespace std;
 
-namespace myTemplate{
+namespace myTemplate {
 struct ListNode {
     int val;
     ListNode *next;
