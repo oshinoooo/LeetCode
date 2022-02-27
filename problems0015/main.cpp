@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -9,7 +11,7 @@ public:
         srand(time(0));
     }
 
-    vector<vector<int>> threeSum(vector<int>& nums) {
+    vector<vector<int>> threeSum1(vector<int>& nums) {
         sort(nums.begin(), nums.end());
 
         int size = nums.size();
@@ -29,10 +31,40 @@ public:
                     continue;
                 }
 
-                if (nums[ptr1] + nums[ptr2] == target) {
-                    out.push_back({nums[i], nums[ptr1], nums[ptr2]});
+                if (nums[ptr1] + nums[ptr2] == target)
+                    out.push_back({nums[i], nums[ptr1++], nums[ptr2]});
+                else if (nums[ptr1] + nums[ptr2] < target)
                     ++ptr1;
+                else
+                    --ptr2;
+            }
+        }
+
+        return out;
+    }
+
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+
+        int length = nums.size();
+
+        vector<vector<int>> out;
+        for (int i = 0; i < length - 2; ++i) {
+            if (i != 0 && nums[i - 1] == nums[i])
+                continue;
+
+            int target = -nums[i];
+            int ptr1 = i + 1;
+            int ptr2 = length - 1;
+
+            while (ptr1 < ptr2) {
+                if (ptr1 != i + 1 && nums[ptr1 - 1] == nums[ptr1]) {
+                    ++ptr1;
+                    continue;
                 }
+
+                if (nums[ptr1] + nums[ptr2] == target)
+                    out.push_back({nums[i], nums[ptr1++], nums[ptr2]});
                 else if (nums[ptr1] + nums[ptr2] < target)
                     ++ptr1;
                 else
