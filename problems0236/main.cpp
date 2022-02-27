@@ -24,7 +24,7 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-class Solution {
+/*class Solution {
 public:
     TreeNode* lowestCommonAncestor1(TreeNode* root, TreeNode* p, TreeNode* q) {
         myLowestCommonAncestor(root, p, q);
@@ -63,6 +63,13 @@ private:
 
 private:
     TreeNode* out;
+};*/
+
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+
+    }
 };
 
 int main() {
