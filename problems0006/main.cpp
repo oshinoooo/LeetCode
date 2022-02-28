@@ -3,40 +3,28 @@
 
 using namespace std;
 
-class Solution
-{
+class Solution {
 public:
-    string convert(string s, int numRows)
-    {
-        vector<vector<int>> out;
-        for (int i = 0; i < numRows; ++i)
-            out.push_back({});
+    string convert(string s, int numRows) {
+        int n = s.length();
+        int r = numRows;
+        if (r == 1 || r >= n)
+            return s;
 
-        int circle = numRows * 2 - 2;
+        string out;
 
-        for (int i = 0; i < s.size(); ++i)
-        {
-            int position = i % circle;
-            if (position > numRows || position == 0)
-            {
-                out
+        int t = r * 2 - 2;
+        for (int i = 0; i < r; ++i) {
+            for (int j = 0; j + i < n; j += t) {
+                out += s[j + i];
+                if (0 < i && i < r - 1 && j + t - i < n)
+                    out += s[j + t - i];
             }
         }
 
-
+        return out;
     }
 };
-
-int main()
-{
-    cout << "------------------" << endl;
-    Solution s;
-    string in = "PAYPALISHIRING";
-    int numRows = 3;
-    cout << s.convert(in, numRows) << endl;
-    cout << "------------------" << endl;
-    return 0;
-}
 
 /*
  * 01        07        13
@@ -45,3 +33,11 @@ int main()
  * 04  06    10  12    16
  * 05        11        17
  */
+
+int main() {
+    cout << "--------------------" << endl;
+    Solution s;
+    cout << s.convert("01234567890123456789", 5) << endl;
+    cout << "--------------------" << endl;
+    return 0;
+}
