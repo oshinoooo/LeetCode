@@ -14,7 +14,7 @@ public:
         return -1;
     }
 
-    int search(vector<int>& nums, int target) {
+    int search2(vector<int>& nums, int target) {
         if (nums.size() == 0)
             return -1;
 
@@ -42,6 +42,33 @@ public:
                     ptr2 = mid - 1;
             }
         }
+        return -1;
+    }
+
+    int search(vector<int>& nums, int target) {
+        int head = 0;
+        int tail = nums.size() - 1;
+
+        while (head <= tail) {
+            int mid = (head + tail) / 2;
+
+            if (nums[mid] == target)
+                return mid;
+
+            if (nums[0] <= target) {
+                if (target > nums[mid] && nums[0] <= nums[mid])
+                    head = mid + 1;
+                else
+                    tail = mid - 1;
+            }
+            else {
+                if (target < nums[mid] && nums[0] > nums[mid])
+                    tail = mid - 1;
+                else
+                    head = mid + 1;
+            }
+        }
+
         return -1;
     }
 };
