@@ -6,18 +6,15 @@ using namespace std;
 class Solution
 {
 public:
-    int search1(vector<int>& nums, int target)
-    {
-        for (int i = 0; i < nums.size(); ++i)
-        {
+    int search1(vector<int>& nums, int target) {
+        for (int i = 0; i < nums.size(); ++i) {
             if (nums[i] == target)
                 return i;
         }
         return -1;
     }
 
-    int search(vector<int>& nums, int target)
-    {
+    int search(vector<int>& nums, int target) {
         if (nums.size() == 0)
             return -1;
 
@@ -27,21 +24,18 @@ public:
         int ptr1 = 0;
         int ptr2 = nums.size() - 1;
 
-        while (ptr1 <= ptr2)
-        {
+        while (ptr1 <= ptr2) {
             int mid = (ptr1 + ptr2) / 2;
             if (nums[mid] == target)
                 return mid;
 
-            if (nums[0] <= nums[mid])
-            {
+            if (nums[0] <= nums[mid]) {
                 if (nums[0] <= target && target < nums[mid])
                     ptr2 = mid - 1;
                 else
                     ptr1 = mid + 1;
             }
-            else
-            {
+            else {
                 if (nums[mid] < target && target <= nums[nums.size() - 1])
                     ptr1 = mid + 1;
                 else
