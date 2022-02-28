@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 
-project(problems0200_windows)
+project(problems0200)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(problems0200_windows main.cpp)
+add_executable(problems0200 main.cpp)
