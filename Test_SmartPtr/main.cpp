@@ -30,8 +30,33 @@ private:
     int number;
 };
 
-#include "A.h"
-#include "B.h"
+class B;
+
+class A {
+public:
+    shared_ptr<B> ptr;
+
+    A() {
+        cout << "A()" << endl;
+    }
+
+    ~A() {
+        cout << "~A()" << endl;
+    }
+};
+
+class B {
+public:
+    weak_ptr<A> ptr;
+
+    B() {
+        cout << "B()" << endl;
+    }
+
+    ~B() {
+        cout << "~B()" << endl;
+    }
+};
 
 int main() {
     cout << "--------------------" << endl;
@@ -60,8 +85,8 @@ int main() {
         cout << p2.lock()->getNumber() << endl;
     }*/
     {
-        A::APtr a(new A());
-        B::BPtr b(new B());
+        shared_ptr<A> a(new A());
+        shared_ptr<B> b(new B());
         a->ptr = b;
         b->ptr = a;
     }
