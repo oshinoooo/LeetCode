@@ -36,7 +36,7 @@ public:
     }
 
     // BSF
-    int numIslands(vector<vector<char>>& grid) {
+    int numIslands2(vector<vector<char>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
         int count = 0;
@@ -80,8 +80,26 @@ public:
         return count;
     }
 
+    // DFS
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        int count = 0;
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == '1') {
+                    ++count;
+                    DSF(grid, i, j);
+                }
+            }
+        }
+
+        return count;
+    }
+
 private:
-    void DSF(vector<vector<char>>& grid, int x, int y) {
+    void DSF1(vector<vector<char>>& grid, int x, int y) {
         grid[x][y] = '0';
 
         if (x + 1 < grid.size()    && grid[x + 1][y] == '1')
@@ -91,6 +109,19 @@ private:
         if (0 <= x - 1             && grid[x - 1][y] == '1')
             DSF(grid, x - 1, y);
         if (0 <= y - 1             && grid[x][y - 1] == '1')
+            DSF(grid, x, y - 1);
+    }
+
+    void DSF(vector<vector<char>>& grid, int x, int y) {
+        grid[x][y] = '0';
+
+        if (x + 1 < grid.size() && grid[x + 1][y] == '1')
+            DSF(grid, x + 1, y);
+        if (0 <= x - 1 && grid[x - 1][y] == '1')
+            DSF(grid, x - 1, y);
+        if (y + 1 < grid[0].size() && grid[x][y + 1] == '1')
+            DSF(grid, x, y + 1);
+        if (0 <= y - 1 && grid[x][y - 1] == '1')
             DSF(grid, x, y - 1);
     }
 };
