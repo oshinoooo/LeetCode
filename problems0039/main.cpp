@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
@@ -15,20 +14,19 @@ public:
 
 private:
     void myCombinationSum(const vector<int>& candidates, int target, int index, vector<int>& tmp, vector<vector<int>>& out) {
-        if (0 == target)
+        if (target == 0) {
             out.push_back(tmp);
-        else if (0 < target) {
-            tmp.push_back(candidates[index]);
-            myCombinationSum(candidates, target - candidates[index], index, tmp, out);
-            tmp.pop_back();
-
-            ++index;
-//            while (index < candidates.size() && candidates[index - 1] == candidates[index])
-//                ++index;
-
-            if (index < candidates.size())
-                myCombinationSum(candidates, target, index, tmp, out);
+            return;
         }
+
+        if (target < 0 || candidates.size() <= index)
+            return;
+
+        tmp.push_back(candidates[index]);
+        myCombinationSum(candidates, target - candidates[index], index, tmp, out);
+        tmp.pop_back();
+
+        myCombinationSum(candidates, target, index + 1, tmp, out);
     }
 };
 

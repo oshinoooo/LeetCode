@@ -17,39 +17,17 @@ using namespace std;
 
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int>& nums) {
-        vector<bool> used(nums.size(), false);
-        vector<int> tmp;
-        vector<vector<int>> out;
-        myPermute(nums, used, tmp, out);
-        return out;
-    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
 
-private:
-    void myPermute(vector<int>& nums, vector<bool>& used, vector<int>& tmp, vector<vector<int>>& out) {
-        for (int i = 0; i < nums.size(); ++i) {
-            if (used[i])
-                continue;
-
-            used[i] = true;
-            tmp.push_back(nums[i]);
-
-            if (tmp.size() == nums.size())
-                out.push_back(tmp);
-            else
-                myPermute(nums, used, tmp, out);
-
-            tmp.pop_back();
-            used[i] = false;
-        }
     }
 };
 
 int main() {
     cout << "---------------------" << endl;
     Solution s;
-    vector<int> nums = {1, 2, 3, 4};
-    vector<vector<int>> out = s.permute(nums);
+    vector<int> candidates = {1, 2, 3, 4};
+    int target = 4;
+    vector<vector<int>> out = s.combinationSum2(candidates, target);
     for (auto ou : out) {
         for (auto o : ou)
             cout << o << " ";
