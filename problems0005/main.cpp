@@ -46,7 +46,7 @@ public:
         return out;
     }
 
-    string longestPalindrome(string s) {
+    string longestPalindrome2(string s) {
         int size = s.size();
         string out;
         vector<vector<bool>> dp(size, vector<bool>(size, false));
@@ -68,6 +68,35 @@ public:
                 if (dp[left][right] && out.size() < length)
                     out = s.substr(left, length);
             }
+        }
+
+        return out;
+    }
+
+    string longestPalindrome(string s) {
+        int n = s.size();
+        string out;
+
+        for (int i = 0; i < n; ++i) {
+            // odd
+            int head = i;
+            int tail = i;
+            while (0 <= head - 1 && tail + 1 < n && s[head - 1] == s[tail + 1]) {
+                --head;
+                ++tail;
+            }
+            string tmp1 = s.substr(head, tail - head + 1);
+            out = out.size() < tmp1.size() ? tmp1 : out;
+
+            // even
+            head = i + 1;
+            tail = i;
+            while (0 <= head - 1 && tail + 1 < n && s[head - 1] == s[tail + 1]) {
+                --head;
+                ++tail;
+            }
+            string tmp2 = s.substr(head, tail - head + 1);
+            out = out.size() < tmp2.size() ? tmp2 : out;
         }
 
         return out;
