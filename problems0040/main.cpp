@@ -25,14 +25,12 @@ private:
             return;
 
         for (int i = 0; i <= m[candidates[index]]; ++i) {
-            for (int j = 0; j < i; ++j)
-                tmp.push_back(candidates[index]);
-
             myCombinationSum2(candidates, target - candidates[index] * i, index + m[candidates[index]]);
-
-            for (int j = 0; j < i; ++j)
-                tmp.pop_back();
+            tmp.push_back(candidates[index]);
         }
+
+        for (int j = 0; j <= m[candidates[index]]; ++j)
+            tmp.pop_back();
     }
 
 private:
