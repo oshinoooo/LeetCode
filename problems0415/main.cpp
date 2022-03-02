@@ -1,28 +1,19 @@
 #include <iostream>
-#include <vector>
 #include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
 #include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
 class Solution {
 public:
     string addStrings(string num1, string num2) {
-        string out;
+        int m = num1.size();
+        int n = num2.size();
 
-        int ptr1 = num1.size() - 1;
-        int ptr2 = num2.size() - 1;
+        int ptr1 = m - 1;
+        int ptr2 = n - 1;
         int carry = 0;
+        string out;
 
         while (0 <= ptr1 || 0 <= ptr2) {
             int tmp;
@@ -41,6 +32,7 @@ public:
             out.push_back('1');
 
         reverse(out.begin(), out.end());
+
         return out;
     }
 };
@@ -48,7 +40,7 @@ public:
 int main() {
     cout << "---------------------" << endl;
     Solution s;
-    cout << s.addStrings("1", "9") << endl;
+    cout << s.addStrings("456", "77") << endl;
     cout << "---------------------" << endl;
     return 0;
 }
