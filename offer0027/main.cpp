@@ -1,27 +1,14 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
 
 using namespace std;
 
-struct TreeNode
-{
+struct TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
 };
 
 void showTree(TreeNode* root) {
@@ -31,28 +18,19 @@ void showTree(TreeNode* root) {
     showTree(root->right);
 }
 
-class Solution
-{
+class Solution {
 public:
-    TreeNode* mirrorTree1(TreeNode* root)
-    {
-        if (root == nullptr)
-            return nullptr;
+    TreeNode* mirrorTree(TreeNode* root) {
+        if (!root) return nullptr;
         swap(root->left, root->right);
         mirrorTree(root->left);
         mirrorTree(root->right);
         return root;
     }
-
-    TreeNode* mirrorTree(TreeNode* root) {
-        return root;
-    }
 };
 
-int main()
-{
-    cout << "---------------------" << endl;
-    Solution s;
+int main() {
+    cout << "--------------------" << endl;
     TreeNode* n1 = new TreeNode(4);
     TreeNode* n2 = new TreeNode(2);
     TreeNode* n3 = new TreeNode(6);
@@ -68,9 +46,10 @@ int main()
     n3->left = n6;
     n3->right = n7;
 
+    Solution s;
     TreeNode* n0 = s.mirrorTree(n1);
     showTree(n0);
     cout << endl;
-    cout << "---------------------" << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
