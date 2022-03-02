@@ -1,17 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
 #include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
@@ -28,19 +17,23 @@ public:
     ListNode* reverseKGroup(ListNode* head, int k) {
         vector<ListNode*> lists = cut(head, k);
 
-        vector<pair<ListNode*, ListNode*>> reversedLists;
+        ListNode* newHead = new ListNode();
+        ListNode* curr = newHead;
         for (int i = 0; i < lists.size(); ++i) {
-            if (i == lists.size() - 1 && !enough)
-                reversedLists.push_back({lists[i], nullptr});
-            else
-                reversedLists.push_back(reverse(lists[i]));
+            if (i == lists.size() - 1 && !enough) {
+                curr->next = lists[i];
+            }
+            else {
+                auto p = reverse(lists[i]);
+                curr->next = p.first;
+                curr = p.second;
+            }
         }
 
-
-        for (int i = 1; i < reversedLists.size(); ++i)
-            reversedLists[i - 1].second->next = reversedLists[i].first;
-
-        return reversedLists[0].first;
+        ListNode* del = newHead;
+        newHead = newHead->next;
+        delete del;
+        return newHead;
     }
 
 private:
