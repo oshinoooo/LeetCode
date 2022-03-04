@@ -17,26 +17,8 @@ using namespace std;
 
 class Solution {
 public:
-    // DFS
-    int numIslands1(vector<vector<char>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        int count = 0;
-
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == '1') {
-                    ++count;
-                    DSF(grid, i, j);
-                }
-            }
-        }
-
-        return count;
-    }
-
     // BSF
-    int numIslands2(vector<vector<char>>& grid) {
+    int numIslands1(vector<vector<char>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
         int count = 0;
@@ -81,16 +63,54 @@ public:
     }
 
     // DFS
+    int numIslands2(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        int count = 0;
+
+        const vector<vector<int>> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == '1') {
+                    grid[i][j] = '0';
+                    ++count;
+                    myNumIslands(grid, i, j, directions);
+                }
+            }
+        }
+
+        return count;
+    }
+
+    // BSF
     int numIslands(vector<vector<char>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
         int count = 0;
+        queue<pair<int, int>> que;
+        const vector<vector<int>> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
                 if (grid[i][j] == '1') {
                     ++count;
-                    DSF(grid, i, j);
+                    grid[i][j] = '0';
+                    que.emplace(i, j);
+
+                    while (!que.empty()) {
+                        auto [x, y] = que.front();
+                        que.pop();
+
+                        for (int k = 0; k < directions.size(); ++k) {
+                            int nextX = directions[k][0] + x;
+                            int nextY = directions[k][1] + y;
+
+                            if (0 <= nextX && nextX < m && 0 <= nextY && nextY < n && grid[nextX][nextY] == '1') {
+                                grid[nextX][nextY] = '0';
+                                que.push({nextX, nextY});
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -99,30 +119,19 @@ public:
     }
 
 private:
-    void DSF1(vector<vector<char>>& grid, int x, int y) {
-        grid[x][y] = '0';
+    void myNumIslands(vector<vector<char>>& grid, int x, int y, const vector<vector<int>>& directions) {
+        int m = grid.size();
+        int n = grid[0].size();
 
-        if (x + 1 < grid.size()    && grid[x + 1][y] == '1')
-            DSF(grid, x + 1, y);
-        if (y + 1 < grid[0].size() && grid[x][y + 1] == '1')
-            DSF(grid, x, y + 1);
-        if (0 <= x - 1             && grid[x - 1][y] == '1')
-            DSF(grid, x - 1, y);
-        if (0 <= y - 1             && grid[x][y - 1] == '1')
-            DSF(grid, x, y - 1);
-    }
+        for (int i = 0; i < directions.size(); ++i) {
+            int nextX = directions[i][0] + x;
+            int nextY = directions[i][1] + y;
 
-    void DSF(vector<vector<char>>& grid, int x, int y) {
-        grid[x][y] = '0';
-
-        if (x + 1 < grid.size() && grid[x + 1][y] == '1')
-            DSF(grid, x + 1, y);
-        if (0 <= x - 1 && grid[x - 1][y] == '1')
-            DSF(grid, x - 1, y);
-        if (y + 1 < grid[0].size() && grid[x][y + 1] == '1')
-            DSF(grid, x, y + 1);
-        if (0 <= y - 1 && grid[x][y - 1] == '1')
-            DSF(grid, x, y - 1);
+            if (0 <= nextX && nextX < m && 0 <= nextY && nextY < n && grid[nextX][nextY] == '1') {
+                grid[nextX][nextY] = '0';
+                myNumIslands(grid, nextX, nextY, directions);
+            }
+        }
     }
 };
 

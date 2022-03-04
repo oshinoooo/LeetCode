@@ -4,6 +4,8 @@
 #include <mutex>
 #include <condition_variable>
 
+#include "Test.h"
+
 using namespace std;
 
 class TestPrint {
@@ -85,7 +87,7 @@ private:
     }
 };
 
-int test1() {
+void test1() {
     cout << "----------------------------------------" << endl;
     TestPrint testPrint;
 
@@ -96,22 +98,31 @@ int test1() {
     for (int i = 0; i < threads.size(); ++i)
         threads[i].join();
     cout << "----------------------------------------" << endl;
-    return 0;
 }
 
-int test2() {
+void test2() {
     cout << "----------------------------------------" << endl;
     vector<int> nums = {1, 1, 3, 9, 10, 30, 11, 10, 2};
     Solution s;
     cout << s.count(nums) << endl;
     cout << "----------------------------------------" << endl;
-    return 0;
+}
+
+void test3() {
+    vector<Test> nums;
+//    Test t;
+//    cout << "----------------------------------------" << endl;
+//    nums.push_back(t);
+    cout << "----------------------------------------" << endl;
+    nums.emplace_back();
+    cout << "----------------------------------------" << endl;
 }
 
 int main() {
     cout << "----------------------------------------" << endl;
 //    test1();
-    test2();
+//    test2();
+    test3();
     cout << "----------------------------------------" << endl;
     return 0;
 }
