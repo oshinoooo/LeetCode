@@ -106,32 +106,28 @@ public:
 
 };
 
-int test1() {
+void test1() {
     cout << "---------------------" << endl;
     Solution s;
     cout << "" << endl;
-    return 0;
 }
 
-int test2() {
+void test2() {
     cout << "---------------------" << endl;
     Solution s;
     cout << "" << endl;
-    return 0;
 }
 
-int test3() {
+void test3() {
     cout << "---------------------" << endl;
     Solution s;
     cout << "" << endl;
-    return 0;
 }
 
-int test4() {
+void test4() {
     cout << "---------------------" << endl;
     Solution s;
     cout << "" << endl;
-    return 0;
 }
 
 int main() {
