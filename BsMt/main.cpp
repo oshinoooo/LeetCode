@@ -227,7 +227,7 @@ void test1() {
     cout << maxLength << endl;
 }
 
-void test3() {
+void test2() {
     int n;
     cin >> n;
 
@@ -266,7 +266,7 @@ void test3() {
     cout << maxSum << endl;
 }
 
-void test4() {
+void test3() {
     int n;
     cin >> n;
 
@@ -311,7 +311,7 @@ void test4() {
     }
 }
 
-void test5() {
+void test4() {
     int n;
     cin >> n;
 
@@ -391,15 +391,21 @@ void test5() {
     cout << sum << endl;
 }
 
-void test6() {
+void test5() {
 
 }
 
 int main() {
-//    test1();
-//    test3();
+    cout << "--------------------" << endl;
+    test1();
+    cout << "--------------------" << endl;
+    test2();
+    cout << "--------------------" << endl;
+    test3();
+    cout << "--------------------" << endl;
     test4();
-//    test5();
-//    test6();
+    cout << "--------------------" << endl;
+    test5();
+    cout << "--------------------" << endl;
     return 0;
 }
