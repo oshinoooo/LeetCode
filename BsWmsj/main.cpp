@@ -2,12 +2,10 @@
 
 using namespace std;
 
-void test1() {
-
-
-}
+// 任意进制转换器
+// 括号
+// 最大乘积的子数组，数字可正可负可领
 
 int main() {
-    test1();
     return 0;
 }
