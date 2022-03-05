@@ -1,28 +1,41 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
 #include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
 class Solution {
 public:
     int lengthOfLIS1(vector<int>& nums) {
-        int size = nums.size();
+        vector<int> tmp = {INT_MIN};
+        return myLengthOfLIS(nums, tmp, 0);
+    }
+
+    int myLengthOfLIS(const vector<int>& nums, vector<int>& tmp, int index) {
+        int n = nums.size();
+
+        if (n <= index)
+            return tmp.size() - 1;
+
+        int maxLength = tmp.size() - 1;
+
+        for (int i = index; i < n; ++i) {
+            if (tmp.back() < nums[i]) {
+                tmp.push_back(nums[i]);
+                maxLength = max(maxLength, myLengthOfLIS(nums, tmp, i + 1));
+                tmp.pop_back();
+            }
+        }
+
+        return maxLength;
+    }
+
+    int lengthOfLIS2(vector<int>& nums) {
+        int n = nums.size();
         int maxLength = 1;
 
-        vector<int> dp(size, 1);
-        for (int i = 0; i < size; ++i) {
+        vector<int> dp(n, 1);
+        for (int i = 1; i < n; ++i) {
             for (int j = 0; j < i; ++j) {
                 if (nums[j] < nums[i])
                     dp[i] = max(dp[i], dp[j] + 1);
@@ -33,10 +46,12 @@ public:
         return maxLength;
     }
 
-    int lengthOfLIS2(vector<int>& nums) {
+    int lengthOfLIS3(vector<int>& nums) {
+        int n = nums.size();
+
         vector<int> dp = {nums[0]};
 
-        for (int i = 1; i < nums.size(); ++i) {
+        for (int i = 1; i < n; ++i) {
             if (dp.back() < nums[i])
                 dp.push_back(nums[i]);
             else {
@@ -53,35 +68,37 @@ public:
     }
 
     int lengthOfLIS(vector<int>& nums) {
-        vector<int> dp(nums.size(), 0);
-        dp[0] = nums[0];
-        int length = 1;
+        int n = nums.size();
 
-        for (int i = 1; i < nums.size(); ++i) {
-            int head = 0;
-            int tail = length - 1;
+        vector<int> dp = {nums[0]};
 
-            while(head <= tail) {
-                int mid = (head + tail) / 2;
-                if(dp[mid] < nums[i])
-                    head = mid + 1;
-                else
-                    tail = mid - 1;
+        for (int i = 1; i < n; ++i) {
+            if (dp.back() < nums[i])
+                dp.push_back(nums[i]);
+            else {
+                int head = 0;
+                int tail = dp.size() - 1;
+
+                while (head <= tail) {
+                    int mid = (head + tail) / 2;
+
+                    if (nums[i] <= dp[mid])
+                        tail = mid - 1;
+                    else
+                        head = mid + 1;
+                }
+                dp[head] = nums[i];
             }
-
-            dp[head] = nums[i];
-            if (head == length)
-                ++length;
         }
 
-        return length;
+        return dp.size();
     }
 };
 
 int main() {
     cout << "---------------------" << endl;
     Solution s;
-    vector<int> nums = {1,3,6,7,9,4,10,5,6};
+    vector<int> nums = {3,5,6,2,5,4,19,5,6,7,12};
     cout << s.lengthOfLIS(nums) << endl;
     cout << "---------------------" << endl;
     return 0;
