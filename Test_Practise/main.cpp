@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <set>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -118,11 +119,28 @@ void test3() {
     cout << "----------------------------------------" << endl;
 }
 
+void test4() {
+    vector<int> tmp = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+    set<int> nums(tmp.begin(), tmp.end());
+
+    srand(time(0));
+    while (!nums.empty()) {
+        int num = rand() % 12 + 1;
+        if (nums.count(num)) {
+            nums.erase(num);
+            cout << num << " ";
+        }
+    }
+
+    cout << endl;
+}
+
 int main() {
     cout << "----------------------------------------" << endl;
 //    test1();
 //    test2();
-    test3();
+//    test3();
+    test4();
     cout << "----------------------------------------" << endl;
     return 0;
 }
