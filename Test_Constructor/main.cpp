@@ -18,6 +18,10 @@ public:
         cout << "base()" << endl;
     }
 
+    base(const base& b) {
+        cout << "base(const base& b)" << endl;
+    }
+
     virtual ~base() {
         cout << "~base()" << endl;
     }
@@ -36,8 +40,11 @@ public:
 
 int main() {
     cout << "--------------------" << endl;
-    base* object = new son();
-    delete object;
+    {
+        base b1;
+        base b2(b1);
+        b2 = b1;
+    }
     cout << "--------------------" << endl;
     return 0;
 }
