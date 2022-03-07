@@ -14,11 +14,11 @@ using namespace std;
 
 namespace myTemplate {
 struct ListNode {
-    int val;
+    int value;
     ListNode* next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode* next) : val(x), next(next) {}
+    ListNode() : value(0), next(nullptr) {}
+    ListNode(int val) : value(val), next(nullptr) {}
+    ListNode(int val, ListNode* next) : value(val), next(next) {}
 };
 
 struct TreeNode {
@@ -59,7 +59,7 @@ int main_backup() {
 
     ListNode* n0;
     while (n0) {
-        cout << n0->val << " ";
+        cout << n0->value << " ";
         n0 = n0->next;
     }
     cout << endl;
