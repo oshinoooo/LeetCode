@@ -22,18 +22,18 @@ struct ListNode {
 };
 
 struct TreeNode {
-    int val;
+    int value;
     TreeNode* left;
     TreeNode* right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+    TreeNode() : value(0), left(nullptr), right(nullptr) {}
+    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
+    TreeNode(int val, TreeNode* left, TreeNode* right) : value(val), left(left), right(right) {}
 };
 
 void showTree(TreeNode* root) {
     if (root == nullptr) return;
     showTree(root->left);
-    cout << root->val << " ";
+    cout << root->value << " ";
     showTree(root->right);
 }
 
@@ -89,10 +89,11 @@ int main_backup() {
         cout << num << " ";
     cout << endl;
 
-    vector<vector<int>> out;
-    for (auto ou : out) {
-        for (auto o : ou)
-            cout << o << " ";
+    vector<vector<int>> nums = {};
+    vector<vector<int>> outs;
+    for (auto out : outs) {
+        for (auto num : out)
+            cout << num << " ";
         cout << endl;
     }
 
