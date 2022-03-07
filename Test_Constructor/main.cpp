@@ -16,36 +16,21 @@ class base {
 public:
     base() {
         cout << "base()" << endl;
-//        show();
     }
 
     virtual ~base() {
         cout << "~base()" << endl;
     }
-
-    virtual void show() {
-        cout << "01234" << endl;
-    }
-
-private:
-    int a;
-    int b;
-    int c;
 };
 
 class son : public base {
 public:
     son() {
         cout << "son()" << endl;
-        show();
     }
 
     ~son() {
         cout << "~son()" << endl;
-    }
-
-    void show() {
-        cout << "56789" << endl;
     }
 };
 
