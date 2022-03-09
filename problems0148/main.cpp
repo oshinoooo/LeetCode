@@ -16,13 +16,14 @@ using namespace std;
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int _val) : val(_val), next(nullptr) {}
+    ListNode(int _val, ListNode* _next) : val(_val), next(_next) {}
 };
 
 class Solution {
+/*
 public:
     ListNode* sortList(ListNode* head) {
         return sortList(head, nullptr);
@@ -67,6 +68,12 @@ public:
 
         ListNode* mid = slow;
         return merge(sortList(head, mid), sortList(mid, tail));
+    }
+*/
+
+public:
+    ListNode* sortList(ListNode* head) {
+
     }
 };
 

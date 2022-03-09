@@ -14,26 +14,26 @@ using namespace std;
 
 namespace myTemplate {
 struct ListNode {
-    int value;
+    int val;
     ListNode* next;
-    ListNode() : value(0), next(nullptr) {}
-    ListNode(int val) : value(val), next(nullptr) {}
-    ListNode(int val, ListNode* next) : value(val), next(next) {}
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int _val) : val(_val), next(nullptr) {}
+    ListNode(int _val, ListNode* _next) : val(_val), next(_next) {}
 };
 
 struct TreeNode {
-    int value;
+    int val;
     TreeNode* left;
     TreeNode* right;
-    TreeNode() : value(0), left(nullptr), right(nullptr) {}
-    TreeNode(int val) : value(val), left(nullptr), right(nullptr) {}
-    TreeNode(int val, TreeNode* left, TreeNode* right) : value(val), left(left), right(right) {}
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
+    TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
 
 void showTree(TreeNode* root) {
     if (root == nullptr) return;
     showTree(root->left);
-    cout << root->value << " ";
+    cout << root->val << " ";
     showTree(root->right);
 }
 
@@ -59,7 +59,7 @@ int main_backup() {
 
     ListNode* n0;
     while (n0) {
-        cout << n0->value << " ";
+        cout << n0->val << " ";
         n0 = n0->next;
     }
     cout << endl;
