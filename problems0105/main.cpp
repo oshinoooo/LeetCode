@@ -33,16 +33,12 @@ void showTree(TreeNode* root) {
 
 class Solution {
 public:
-    TreeNode* buildTree1(vector<int>& preorder, vector<int>& inorder) {
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
         int length = preorder.size();
         for (int i = 0; i < length; ++i)
             index[inorder[i]] = i;
         return myBuildTree(preorder, 0, length - 1,
                            inorder, 0, length - 1);
-    }
-
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-
     }
 
 private:
