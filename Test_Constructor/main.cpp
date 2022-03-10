@@ -12,38 +12,35 @@
 
 using namespace std;
 
-class base {
+class Base {
 public:
-    base() {
-        cout << "base()" << endl;
+    Base(int a, int b) {
+        cout << "Base()" << endl;
     }
 
-    base(const base& b) {
-        cout << "base(const base& b)" << endl;
+    Base(const Base& b) {
+        cout << "Base(const Base& b)" << endl;
     }
 
-    virtual ~base() {
-        cout << "~base()" << endl;
-    }
-};
-
-class son : public base {
-public:
-    son() {
-        cout << "son()" << endl;
+    Base(const Base&& b) {
+        cout << "Base(const Base& b)" << endl;
     }
 
-    ~son() {
-        cout << "~son()" << endl;
+    Base operator=(const Base& b) {
+        cout << "Base operator=(const Base& b)" << endl;
+    }
+
+    virtual ~Base() {
+        cout << "~Base()" << endl;
     }
 };
 
 int main() {
     cout << "--------------------" << endl;
     {
-        base b1;
-        base b2(b1);
-        b2 = b1;
+        vector<Base> bases;
+        bases.emplace_back(1, 2);
+        bases.push_back({1, 2});
     }
     cout << "--------------------" << endl;
     return 0;

@@ -135,12 +135,19 @@ void test4() {
     cout << endl;
 }
 
+struct testStruct {
+    char a;
+    char c;
+    long long b;
+};
+
 int main() {
     cout << "----------------------------------------" << endl;
 //    test1();
 //    test2();
 //    test3();
-    test4();
+//    test4();
+    cout << sizeof(testStruct) << endl;
     cout << "----------------------------------------" << endl;
     return 0;
 }
