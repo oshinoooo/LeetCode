@@ -113,23 +113,19 @@ Singleton_safe_lazy2::Ptr Singleton_safe_lazy2::m_instance_ptr = nullptr;
 mutex Singleton_safe_lazy2::m_mutex;
 
 // magic static
-class Singleton_magic_static
-{
+class Singleton_magic_static {
 public:
-    static Singleton_magic_static& get_instance()
-    {
+    static Singleton_magic_static& get_instance() {
         static Singleton_magic_static instance;
         return instance;
     }
 
-    ~Singleton_magic_static()
-    {
+    ~Singleton_magic_static() {
         cout << "~Singleton_magic_static()" << endl;
     }
 
 private:
-    Singleton_magic_static()
-    {
+    Singleton_magic_static() {
         cout << "Singleton_magic_static()" << endl;
     }
 
@@ -169,6 +165,67 @@ int test1() {
     return 0;
 }
 
+class Singleton {
+public:
+    static Singleton& getInstance() {
+        static Singleton instance;
+        return instance;
+    }
+
+    ~Singleton() {
+        cout << "~Singleton()" << endl;
+    }
+
+private:
+    Singleton() {
+        cout << "Singleton()" << endl;
+    }
+
+    Singleton(const Singleton& singleton) = delete;
+
+    Singleton& operator=(const Singleton& singleton) = delete;
+};
+
+class SingletonHungry {
+public:
+    static SingletonHungry& getInstance() {
+        return instance;
+    }
+
+    ~SingletonHungry() {
+        cout << "~SingletonHungry()" << endl;
+    }
+
+private:
+    SingletonHungry() {
+        cout << "SingletonHungry()" << endl;
+    }
+
+    SingletonHungry(const SingletonHungry& singleton) = delete;
+
+    SingletonHungry& operator=(const SingletonHungry& singleton) = delete;
+
+private:
+    static SingletonHungry instance;
+};
+
+SingletonHungry SingletonHungry::instance;
+
+int test2() {
+    Singleton::getInstance();
+    Singleton::getInstance();
+    Singleton::getInstance();
+    Singleton::getInstance();
+    Singleton::getInstance();
+
+    SingletonHungry::getInstance();
+    SingletonHungry::getInstance();
+    SingletonHungry::getInstance();
+    SingletonHungry::getInstance();
+    SingletonHungry::getInstance();
+}
+
 int main() {
-    test1();
+//    test1();
+    test2();
 }
