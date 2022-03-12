@@ -60,7 +60,8 @@ public:
 
 int main() {
     cout << "--------------------" << endl;
-/*    {
+/*
+    {
         Solution::SolutionAutoPtr p1(new Solution());
         Solution::SolutionAutoPtr p2 = s1;
         cout << p2->getNumber() << endl;
@@ -83,12 +84,16 @@ int main() {
         Solution::SolutionWeakPtr p2 = p1;
         cout << p2.use_count() << endl;
         cout << p2.lock()->getNumber() << endl;
-    }*/
+    }
     {
         shared_ptr<A> a(new A());
         shared_ptr<B> b(new B());
         a->ptr = b;
         b->ptr = a;
+    }
+*/
+    {
+        shared_ptr<Solution> ptr(new Solution());
     }
     cout << "--------------------" << endl;
     return 0;
