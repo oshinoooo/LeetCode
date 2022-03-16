@@ -17,58 +17,36 @@ using namespace std;
 
 struct TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
+    TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
-
-/*class Solution {
-public:
-    TreeNode* lowestCommonAncestor1(TreeNode* root, TreeNode* p, TreeNode* q) {
-        myLowestCommonAncestor(root, p, q);
-        return out;
-    }
-
-    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if(!root || root == p || root == q)
-            return root;
-
-        auto l = lowestCommonAncestor(root->left, p, q);
-        auto r = lowestCommonAncestor(root->right, p, q);
-
-        if(!l)
-            return r;
-
-        if(!r)
-            return l;
-
-        return root;
-    }
-
-private:
-    bool myLowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        if (root == nullptr)
-            return false;
-
-        bool l = myLowestCommonAncestor(root->left, p, q);
-        bool r = myLowestCommonAncestor(root->right, p, q);
-
-        if ((l && r) || ((root == p || root == q) && (l || r)))
-            out = root;
-
-        return l || r || root == p || root == q;
-    }
-
-private:
-    TreeNode* out;
-};*/
 
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if (!root)
+            return nullptr;
 
+        if (root == p)
+            return p;
+
+        if (root == q)
+            return q;
+
+        TreeNode* node1 = lowestCommonAncestor(root->left, p, q);
+        TreeNode* node2 = lowestCommonAncestor(root->right, p, q);
+
+        if (node1 && node2)
+            return root;
+        else if (node1)
+            return node1;
+        else if (node2)
+            return node2;
+
+        return nullptr;
     }
 };
 
