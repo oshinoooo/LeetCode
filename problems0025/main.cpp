@@ -6,66 +6,49 @@ using namespace std;
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int _val) : val(_val), next(nullptr) {}
+    ListNode(int _val, ListNode* _next) : val(_val), next(_next) {}
 };
 
 class Solution {
 public:
     ListNode* reverseKGroup(ListNode* head, int k) {
-        vector<ListNode*> lists = cut(head, k);
+        vector<pair<ListNode*, ListNode*>> heads = cut(head, k);
 
-        ListNode* newHead = new ListNode();
-        ListNode* curr = newHead;
-        for (int i = 0; i < lists.size(); ++i) {
-            if (i == lists.size() - 1 && !enough) {
-                curr->next = lists[i];
-            }
-            else {
-                auto p = reverse(lists[i]);
-                curr->next = p.first;
-                curr = p.second;
+        for (int i = 0; i < heads.size(); ++i) {
+            if (i != heads.size() - 1 || enough) {
+                reverse(heads[i].first);
+                swap(heads[i].first, heads[i].second);
             }
         }
 
-        ListNode* del = newHead;
-        newHead = newHead->next;
-        delete del;
-        return newHead;
+        for (int i = 1; i < heads.size(); ++i)
+            heads[i - 1].second->next = heads[i].first;
+
+        return heads[0].first;
     }
 
 private:
-    pair<ListNode*, ListNode*> reverse(ListNode* head) {
-        ListNode* newHead = new ListNode();
-        ListNode* cur = head;
-        while (cur) {
-            auto tmp = newHead->next;
-            newHead->next = cur;
-            cur = cur->next;
-            newHead->next->next = tmp;
-        }
-
-        return {newHead->next, head};
-    }
-
-    vector<ListNode*> cut(ListNode* head, int k) {
-        vector<ListNode*> out;
+    vector<pair<ListNode*, ListNode*>> cut(ListNode* head, int k) {
+        vector<pair<ListNode*, ListNode*>> heads;
 
         int count = 1;
         while (head) {
             if (count == 1)
-                out.push_back(head);
+                heads.emplace_back(head, nullptr);
 
-            ListNode* tmp = head->next;
+            ListNode* tail = head;
+            head = head->next;
+
             if (count == k) {
-                head->next = nullptr;
+                tail->next = nullptr;
+                heads.back().second = tail;
                 count = 0;
             }
 
             ++count;
-            head = tmp;
         }
 
         if (count == 1)
@@ -73,7 +56,17 @@ private:
         else
             enough = false;
 
-        return out;
+        return heads;
+    }
+
+    ListNode* reverse(ListNode* head) {
+        if (!head || !head->next)
+            return head;
+
+        ListNode* newHead = reverse(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return newHead;
     }
 
 private:
