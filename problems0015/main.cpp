@@ -7,100 +7,36 @@ using namespace std;
 
 class Solution {
 public:
-    Solution() {
-        srand(time(0));
-    }
-
-    vector<vector<int>> threeSum1(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-
-        int size = nums.size();
-
-        vector<vector<int>> out;
-        for (int i = 0; i < size - 2; ++i) {
-            if (0 < i && nums[i - 1] == nums[i])
-                continue;
-
-            int target = -nums[i];
-            int ptr1 = i + 1;
-            int ptr2 = size - 1;
-
-            while (ptr1 < ptr2) {
-                if (i + 1 < ptr1 & nums[ptr1] == nums[ptr1 - 1]) {
-                    ++ptr1;
-                    continue;
-                }
-
-                if (nums[ptr1] + nums[ptr2] == target)
-                    out.push_back({nums[i], nums[ptr1++], nums[ptr2]});
-                else if (nums[ptr1] + nums[ptr2] < target)
-                    ++ptr1;
-                else
-                    --ptr2;
-            }
-        }
-
-        return out;
-    }
-
     vector<vector<int>> threeSum(vector<int>& nums) {
         sort(nums.begin(), nums.end());
 
-        int length = nums.size();
+        int n = nums.size();
 
         vector<vector<int>> out;
-        for (int i = 0; i < length - 2; ++i) {
+        for (int i = 0; i < n - 2; ++i) {
             if (i != 0 && nums[i - 1] == nums[i])
                 continue;
 
-            int target = -nums[i];
-            int ptr1 = i + 1;
-            int ptr2 = length - 1;
+            int head = i + 1;
+            int tail = n - 1;
 
-            while (ptr1 < ptr2) {
-                if (ptr1 != i + 1 && nums[ptr1 - 1] == nums[ptr1]) {
-                    ++ptr1;
+            while (head < tail) {
+                if (head != i + 1 && nums[head - 1] == nums[head]) {
+                    ++head;
                     continue;
                 }
 
-                if (nums[ptr1] + nums[ptr2] == target)
-                    out.push_back({nums[i], nums[ptr1++], nums[ptr2]});
-                else if (nums[ptr1] + nums[ptr2] < target)
-                    ++ptr1;
+                int sum = nums[i] + nums[head] + nums[tail];
+                if (sum < 0)
+                    ++head;
+                else if (sum == 0)
+                    out.push_back({nums[i], nums[head++], nums[tail]});
                 else
-                    --ptr2;
+                    --tail;
             }
         }
 
         return out;
-    }
-
-private:
-    void quickSort(vector<int>& nums, int head, int tail) {
-        if (tail <= head)
-            return;
-
-        int index = rand() % (tail - head + 1) + head;
-        swap(nums[index], nums[head]);
-        int pivot = nums[head];
-
-        int tmpHead = head;
-        int tmpTail = tail;
-
-        while (tmpHead < tmpTail) {
-            while (pivot <= nums[tmpTail])
-                --tmpTail;
-            nums[tmpHead] = nums[tmpTail];
-
-            while (nums[tmpHead] <= pivot)
-                ++tmpHead;
-            nums[tmpTail] = nums[tmpHead];
-        }
-
-        nums[tmpHead] = pivot;
-
-        quickSort(nums, head, tmpHead - 1);
-        quickSort(nums, tmpHead + 1, tail);
     }
 };
 
