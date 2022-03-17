@@ -19,7 +19,8 @@ class Solution {
 public:
     vector<int> sortArray(vector<int>& nums) {
         srand(time(0));
-        quickSort(nums, 0, nums.size() - 1);
+//        quickSort(nums, 0, nums.size() - 1);
+        mergeSort(nums, 0, nums.size() - 1);
         return nums;
     }
 
@@ -49,6 +50,32 @@ private:
 
         quickSort(nums, head, tmpHead - 1);
         quickSort(nums, tmpHead + 1, tail);
+    }
+
+    void mergeSort(vector<int>& nums, int head, int tail) {
+        if (tail <= head)
+            return;
+
+        int mid = (head + tail) / 2;
+        mergeSort(nums, head, mid);
+        mergeSort(nums, mid + 1, tail);
+
+        vector<int>tmp(nums.begin() + head, nums.begin() + mid + 1);
+
+        int ptr1 = 0;
+        int ptr2 = mid + 1;
+        for (int i = head; i <= tail; ++i) {
+            if (ptr1 < tmp.size() && ptr2 <= tail) {
+                if (tmp[ptr1] < nums[ptr2])
+                    nums[i] = tmp[ptr1++];
+                else
+                    nums[i] = nums[ptr2++];
+            }
+            else if (ptr1 < tmp.size())
+                nums[i] = tmp[ptr1++];
+            else
+                nums[i] = nums[ptr2++];
+        }
     }
 };
 
