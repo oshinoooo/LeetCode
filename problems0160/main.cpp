@@ -1,31 +1,19 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
 #include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int _val) : val(_val), next(nullptr) {}
+    ListNode(int _val, ListNode* _next) : val(_val), next(_next) {}
 };
 
 class Solution {
 public:
-    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+    ListNode* getIntersectionNode1(ListNode* headA, ListNode* headB) {
         ListNode* ptr1 = headA;
         ListNode* ptr2 = headB;
 
@@ -39,6 +27,25 @@ public:
                 ptr2 = headA;
             else
                 ptr2 = ptr2->next;
+        }
+
+        return ptr1;
+    }
+
+    ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+        ListNode* ptr1 = headA;
+        ListNode* ptr2 = headB;
+
+        while (ptr1 != ptr2) {
+            if (ptr1)
+                ptr1 = ptr1->next;
+            else
+                ptr1 = headB;
+
+            if (ptr2)
+                ptr2 = ptr2->next;
+            else
+                ptr2 = headA;
         }
 
         return ptr1;

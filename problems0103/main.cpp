@@ -1,32 +1,21 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
 #include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
 struct TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
+    TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
 
 class Solution {
 public:
-    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    vector<vector<int>> zigzagLevelOrder1(TreeNode* root) {
         vector<vector<int>> out;
         deque<TreeNode*> dq;
         dq.push_back(root);
@@ -64,6 +53,52 @@ public:
                 out.push_back(tmp);
 
             direction = !direction;
+        }
+
+        return out;
+    }
+
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> out;
+        deque<TreeNode*> dq;
+        dq.push_back(root);
+        int level = 1;
+
+        while (!dq.empty()) {
+            int n = dq.size();
+            vector<int> tmp;
+
+            if (level % 2 == 1) {
+                for (int i = 0; i < n; ++i) {
+                    TreeNode* node = dq.front();
+                    dq.pop_front();
+
+                    if (!node)
+                        continue;
+
+                    tmp.push_back(node->val);
+                    dq.push_back(node->left);
+                    dq.push_back(node->right);
+                }
+            }
+            else {
+                for (int i = 0; i < n; ++i) {
+                    TreeNode* node = dq.back();
+                    dq.pop_back();
+
+                    if (!node)
+                        continue;
+
+                    tmp.push_back(node->val);
+                    dq.push_front(node->right);
+                    dq.push_front(node->left);
+                }
+            }
+
+            ++level;
+
+            if (!tmp.empty())
+                out.push_back(tmp);
         }
 
         return out;
