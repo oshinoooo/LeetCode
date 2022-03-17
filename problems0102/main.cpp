@@ -1,26 +1,16 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
 #include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
 
 using namespace std;
 
 struct TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
+    TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
 
 class Solution {
@@ -59,7 +49,7 @@ public:
         return out;
     }
 
-    vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> levelOrder2(TreeNode* root) {
         if (!root)
             return {};
 
@@ -81,6 +71,32 @@ public:
             }
             out.push_back(tmp);
             tmp.clear();
+        }
+
+        return out;
+    }
+
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> out;
+        queue<TreeNode*> que;
+        que.push(root);
+
+        while (!que.empty()) {
+            vector<int> tmp;
+            int n = que.size();
+            for (int i = 0; i < n; ++i) {
+                TreeNode* node = que.front();
+                que.pop();
+
+                if (!node)
+                    continue;
+
+                tmp.push_back(node->val);
+                que.push(node->left);
+                que.push(node->right);
+            }
+            if (!tmp.empty())
+                out.push_back(tmp);
         }
 
         return out;
