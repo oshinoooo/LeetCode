@@ -14,7 +14,9 @@ using namespace std;
 
 class Solution {
 public:
-
+    // 逆转字符串
+    // 判断IPv4/IPv6
+    // 青蛙跳台阶
 };
 
 void test1() {
