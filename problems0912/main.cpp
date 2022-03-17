@@ -17,102 +17,38 @@ using namespace std;
 
 class Solution {
 public:
-    Solution() {
-        srand(time(0));
-    }
-
     vector<int> sortArray(vector<int>& nums) {
-//        quickSort(nums, 0, nums.size() - 1);
-//        mergeSort(nums, 0, nums.size() - 1);
-        heapSort(nums);
+        srand(time(0));
+        quickSort(nums, 0, nums.size() - 1);
         return nums;
     }
 
 private:
-    void quickSort(vector<int>& nums, int left, int right) {
-        if (right <= left)
+    void quickSort(vector<int>& nums, int head, int tail) {
+        if (tail <= head)
             return;
 
-        int index = rand() % (right - left + 1) + left;
-        swap(nums[index], nums[left]);
-        int pivot = nums[left];
-        int tmpLeft = left;
-        int tmpRight = right;
+        int index = rand() % (tail - head + 1) + head;
+        swap(nums[head], nums[index]);
 
-        while (tmpLeft < tmpRight) {
-            while (tmpLeft < tmpRight && pivot <= nums[tmpRight])
-                --tmpRight;
-            nums[tmpLeft] = nums[tmpRight];
+        int pivot = nums[head];
+        int tmpHead = head;
+        int tmpTail = tail;
 
-            while (tmpLeft < tmpRight && nums[tmpLeft] <= pivot)
-                ++tmpLeft;
-            nums[tmpRight] = nums[tmpLeft];
-        }
-        nums[tmpLeft] = pivot;
+        while (tmpHead < tmpTail) {
+            while (tmpHead < tmpTail && pivot <= nums[tmpTail])
+                --tmpTail;
+            nums[tmpHead] = nums[tmpTail];
 
-        quickSort(nums, left, tmpLeft - 1);
-        quickSort(nums, tmpLeft + 1, right);
-    }
-
-    void mergeSort(vector<int>& nums, int left, int right) {
-        if (right <= left)
-            return;
-
-        int mid = (left + right) / 2;
-
-        mergeSort(nums, left, mid);
-        mergeSort(nums, mid + 1, right);
-
-        int ptr1 = left;
-        int ptr2 = mid + 1;
-        vector<int> tmp;
-
-        while (ptr1 <= mid || ptr2 <= right) {
-            if (ptr1 <= mid && ptr2 <= right) {
-                if (nums[ptr1] < nums[ptr2])
-                    tmp.push_back(nums[ptr1++]);
-                else
-                    tmp.push_back(nums[ptr2++]);
-            }
-            else if (ptr1 <= mid)
-                tmp.push_back(nums[ptr1++]);
-            else
-                tmp.push_back(nums[ptr2++]);
+            while (tmpHead < tmpTail && nums[tmpHead] <= pivot)
+                ++tmpHead;
+            nums[tmpTail] = nums[tmpHead];
         }
 
-        for (int i = left; i <= right; ++i)
-            nums[i] = tmp[i - left];
-    }
+        nums[tmpHead] = pivot;
 
-    void adjust(vector<int>& nums, int length, int index)
-    {
-        int left  = 2 * index + 1;
-        int right = 2 * index + 2;
-
-        int maxIdx = index;
-
-        if(left < length && nums[maxIdx] < nums[left])
-            maxIdx = left;
-
-        if(right < length && nums[maxIdx] < nums[right])
-            maxIdx = right;
-
-        if(maxIdx != index) {
-            swap(nums[maxIdx], nums[index]);
-            adjust(nums, length, maxIdx);
-        }
-    }
-
-    void heapSort(vector<int>& nums) {
-        int size = nums.size();
-
-        for(int i = size / 2 - 1; 0 <= i; --i)
-            adjust(nums, size, i);
-
-        for(int i = size - 1; 1 <= i; i--) {
-            swap(nums[0], nums[i]);
-            adjust(nums, i, 0);
-        }
+        quickSort(nums, head, tmpHead - 1);
+        quickSort(nums, tmpHead + 1, tail);
     }
 };
 
