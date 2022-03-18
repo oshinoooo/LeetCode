@@ -7,15 +7,14 @@ struct TreeNode {
     TreeNode* left;
     TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+    TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
+    TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
 
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {
-        if (!root) return true;
-        return myIsSymmetric(root->left, root->right);
+        return myIsSymmetric(root, root);
     }
 
 private:
