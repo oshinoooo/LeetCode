@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.17)
+
 project(offer0046)
 
 set(CMAKE_CXX_STANDARD 14)
