@@ -7,8 +7,8 @@ struct TreeNode {
     TreeNode* left;
     TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+    TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
+    TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
 
 void showTree(TreeNode* root) {
@@ -22,9 +22,9 @@ class Solution {
 public:
     TreeNode* mirrorTree(TreeNode* root) {
         if (!root) return nullptr;
-        swap(root->left, root->right);
         mirrorTree(root->left);
         mirrorTree(root->right);
+        swap(root->left, root->right);
         return root;
     }
 };
@@ -46,8 +46,12 @@ int main() {
     n3->left = n6;
     n3->right = n7;
 
+    showTree(n1);
+    cout << endl;
+
     Solution s;
     TreeNode* n0 = s.mirrorTree(n1);
+
     showTree(n0);
     cout << endl;
     cout << "--------------------" << endl;
