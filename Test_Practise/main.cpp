@@ -1,6 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <map>
+#include <queue>
+#include <unordered_set>
+#include <unordered_map>
 #include <thread>
 #include <mutex>
 #include <condition_variable>
@@ -141,13 +145,26 @@ struct testStruct {
     long long b;
 };
 
+void test5() {
+    cout << sizeof(testStruct) << endl;
+}
+
+void test6() {
+    map<int, testStruct*> m;
+    if (m[4] == nullptr)
+        cout << 1 << endl;
+    else
+        cout << 2 << endl;
+}
+
 int main() {
     cout << "----------------------------------------" << endl;
 //    test1();
 //    test2();
 //    test3();
 //    test4();
-    cout << sizeof(testStruct) << endl;
+//    test5();
+    test6();
     cout << "----------------------------------------" << endl;
     return 0;
 }
