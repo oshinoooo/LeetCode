@@ -1,17 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
 #include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
@@ -73,7 +62,7 @@ public:
         return out;
     }
 
-    string longestPalindrome(string s) {
+    string longestPalindrome3(string s) {
         int n = s.size();
         string out;
 
@@ -97,6 +86,40 @@ public:
             }
             string tmp2 = s.substr(head, tail - head + 1);
             out = out.size() < tmp2.size() ? tmp2 : out;
+        }
+
+        return out;
+    }
+
+    string longestPalindrome(string s) {
+        int n = s.size();
+
+        string out;
+
+        for (int i = 0; i < n; ++i) {
+            int head = i;
+            int tail = i;
+
+            while (0 <= head - 1 && tail + 1 < n && s[head - 1] == s[tail + 1]) {
+                --head;
+                ++tail;
+            }
+
+            if (out.size() < tail - head + 1)
+                out = s.substr(head, tail - head + 1);
+        }
+
+        for (int i = 0; i < n; ++i) {
+            int head = i + 1;
+            int tail = i;
+
+            while (0 <= head - 1 && tail + 1 < n && s[head - 1] == s[tail + 1]) {
+                --head;
+                ++tail;
+            }
+
+            if (out.size() < tail - head + 1)
+                out = s.substr(head, tail - head + 1);
         }
 
         return out;
