@@ -6,8 +6,7 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        int n = nums.size();
-        vector<bool> used(n, false);
+        vector<bool> used(nums.size(), false);
         vector<int> tmp;
         vector<vector<int>> out;
         myPermute(nums, used, tmp, out);
@@ -24,13 +23,13 @@ private:
         }
 
         for (int i = 0; i < n; ++i) {
-            if (used[i])
-                continue;
-            used[i] = true;
-            tmp.push_back(nums[i]);
-            myPermute(nums, used, tmp, out);
-            tmp.pop_back();
-            used[i] = false;
+            if (!used[i]) {
+                used[i] = true;
+                tmp.push_back(nums[i]);
+                myPermute(nums, used, tmp, out);
+                tmp.pop_back();
+                used[i] = false;
+            }
         }
     }
 };
