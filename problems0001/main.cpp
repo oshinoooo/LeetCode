@@ -1,43 +1,27 @@
 #include <iostream>
 #include <vector>
-#include <map>
 #include <unordered_map>
 
 using namespace std;
 
-class Solution
-{
+class Solution {
 public:
-    vector<int> twoSum1(vector<int>& nums, int target)
-    {
-        for (int i = 0; i < nums.size(); ++i)
-        {
-            for (int j = i + 1; j < nums.size(); ++j)
-            {
-                if (nums[i] + nums[j] == target)
-                    return {i, j};
-            }
-        }
-        return {};
-    }
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> m;
 
-    vector<int> twoSum(vector<int>& nums, int target)
-    {
-        unordered_map<int, int> hashtable;
-        for (int i = 0; i < nums.size(); ++i)
-        {
-            auto it = hashtable.find(target - nums[i]);
-            if (it != hashtable.end())
-                return {it->second, i};
-            hashtable[nums[i]] = i;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (m.count(target - nums[i])) {
+                return {m[target - nums[i]], i};
+            }
+            m[nums[i]] = i;
         }
-        return {};
+
+        return {-1, -1};
     }
 };
 
-int main()
-{
-    cout << "---------------------" << endl;
+int main() {
+    cout << "--------------------" << endl;
     Solution s;
     vector<int> nums = {2,7,11,15};
     int target = 9;
@@ -45,6 +29,6 @@ int main()
     for (auto num : out)
         cout << num << " ";
     cout << endl;
-    cout << "---------------------" << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
