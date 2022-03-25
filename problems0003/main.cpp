@@ -6,10 +6,9 @@ using namespace std;
 
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
-        int maxLength = 0;
-
+    int lengthOfLongestSubstring1(string s) {
         int start = 0;
+        int maxLength = 0;
         vector<int> positions(250, -1);
         for (int i = 0; i < s.size(); ++i) {
             if (positions[s[i]] < start)
@@ -17,6 +16,22 @@ public:
             else
                 start = positions[s[i]] + 1;
 
+            positions[s[i]] = i;
+        }
+
+        return maxLength;
+    }
+
+    int lengthOfLongestSubstring(string s) {
+        int start = 0;
+        int maxLength = 0;
+        vector<int> positions(250, -1);
+
+        for (int i = 0; i < s.size(); ++i) {
+            if (start <= positions[s[i]]) {
+                start = positions[s[i]] + 1;
+            }
+            maxLength = max(maxLength, i - start + 1);
             positions[s[i]] = i;
         }
 
