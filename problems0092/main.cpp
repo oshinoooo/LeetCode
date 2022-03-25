@@ -13,44 +13,50 @@ struct ListNode {
 class Solution {
 public:
     ListNode* reverseBetween(ListNode* head, int left, int right) {
-        ListNode* outHead = new ListNode(0, head);
-        ListNode* curr = outHead;
+        ListNode* newHead = new ListNode(0, head);
+        ListNode* curr = newHead;
 
-        ListNode* rHead;
-        ListNode* prev;
-        ListNode* next;
-        for (int i = 0; i <= right; ++i) {
-            if (i == left - 1)
+        ListNode* prev = nullptr;
+        ListNode* hea2 = nullptr;
+        ListNode* tail = nullptr;
+        ListNode* next = nullptr;
+
+        int count = 0;
+        while (curr) {
+            if (count == left - 1)
                 prev = curr;
 
-            if (i == left)
-                rHead = curr;
+            if (count == left)
+                hea2 = curr;
 
-            if (i == right) {
-                next = curr->next;
-                curr->next = nullptr;
-            }
+            if (count == right)
+                tail = curr;
+
+            if (count == right + 1)
+                next = curr;
 
             curr = curr->next;
+            ++count;
         }
 
-        prev->next = myReverse(rHead, next);
+        tail->next = nullptr;
 
-        return outHead->next;
+        prev->next = reverse(hea2);
+        hea2->next = next;
+
+        ListNode* out = newHead->next;
+        delete newHead;
+        return out;
     }
 
 private:
-    ListNode* myReverse(ListNode* head, ListNode* next) {
-        auto newHead = new ListNode(0, next);
-
-        while (head) {
-            auto tmp = newHead->next;
-            newHead->next = head;
-            head = head->next;
-            newHead->next->next = tmp;
-        }
-
-        return newHead->next;
+    ListNode* reverse(ListNode* head) {
+        if (!head || !head->next)
+            return head;
+        ListNode* newHead = reverse(head->next);
+        head->next->next = head;
+        head->next = nullptr;
+        return newHead;
     }
 };
 
@@ -63,12 +69,12 @@ int main() {
     ListNode* n4 = new ListNode(4);
     ListNode* n5 = new ListNode(5);
 
-//    n1->next = n2;
-//    n2->next = n3;
-//    n3->next = n4;
-//    n4->next = n5;
+    n1->next = n2;
+    n2->next = n3;
+    n3->next = n4;
+    n4->next = n5;
 
-    ListNode* n0 = s.reverseBetween(n1, 1, 1);
+    ListNode* n0 = s.reverseBetween(n1, 2, 4);
     while (n0 != nullptr) {
         cout << n0->val << " ";
         n0 = n0->next;
