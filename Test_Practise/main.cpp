@@ -150,8 +150,8 @@ void test5() {
 }
 
 void test6() {
-    map<int, testStruct*> m;
-    if (m[4] == nullptr)
+    map<pair<int, int>, queue<int>> m;
+    if (m[{1, 2}].empty())
         cout << 1 << endl;
     else
         cout << 2 << endl;
