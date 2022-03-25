@@ -1,17 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
@@ -19,13 +6,13 @@ struct ListNode {
     int val;
     ListNode* next;
     ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode* next) : val(x), next(next) {}
+    ListNode(int _val) : val(_val), next(nullptr) {}
+    ListNode(int _val, ListNode* _next) : val(_val), next(_next) {}
 };
 
 class Solution {
 public:
-    ListNode* detectCycle(ListNode* head) {
+    ListNode* detectCycle1(ListNode* head) {
         if (!head || !head->next)
             return nullptr;
 
@@ -42,6 +29,31 @@ public:
         slow = slow->next;
         ListNode* curr = head;
 
+        while (slow != curr) {
+            slow = slow->next;
+            curr = curr->next;
+        }
+
+        return slow;
+    }
+
+    ListNode* detectCycle(ListNode* head) {
+        if (!head || !head->next)
+            return nullptr;
+
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+
+        while (slow != fast) {
+            slow = slow->next;
+            if (fast && fast->next)
+                fast = fast->next->next;
+            else
+                return nullptr;
+        }
+
+        slow = slow->next;
+        ListNode* curr = head;
         while (slow != curr) {
             slow = slow->next;
             curr = curr->next;
