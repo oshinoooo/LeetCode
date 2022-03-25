@@ -1,31 +1,18 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
 #include <ctime>
 
 using namespace std;
 
 class Solution {
 public:
-    Solution() {
-        srand(time(0));
-    }
-
     int findKthLargest(vector<int>& nums, int k) {
+        srand(time(0));
         quickSort(nums, 0, nums.size() - 1);
         return nums[nums.size() - k];
     }
 
+private:
     void quickSort(vector<int>& nums, int head, int tail) {
         if (tail <= head)
             return;
@@ -45,10 +32,11 @@ public:
                 ++tmpHead;
             nums[tmpTail] = nums[tmpHead];
         }
-        nums[tmpTail] = pivot;
 
-        quickSort(nums, head, tmpTail - 1);
-        quickSort(nums, tmpTail + 1, tail);
+        nums[tmpHead] = pivot;
+
+        quickSort(nums, head, tmpHead - 1);
+        quickSort(nums, tmpHead + 1, tail);
     }
 };
 
