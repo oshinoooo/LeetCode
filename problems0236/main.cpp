@@ -1,17 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
@@ -30,11 +17,8 @@ public:
         if (!root)
             return nullptr;
 
-        if (root == p)
-            return p;
-
-        if (root == q)
-            return q;
+        if (root == p || root == q)
+            return root;
 
         TreeNode* node1 = lowestCommonAncestor(root->left, p, q);
         TreeNode* node2 = lowestCommonAncestor(root->right, p, q);
