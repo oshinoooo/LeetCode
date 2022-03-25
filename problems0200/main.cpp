@@ -1,17 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
 #include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
@@ -62,28 +51,8 @@ public:
         return count;
     }
 
-    // DFS
-    int numIslands2(vector<vector<char>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-        int count = 0;
-
-        const vector<vector<int>> directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-        for (int i = 0; i < m; ++i) {
-            for (int j = 0; j < n; ++j) {
-                if (grid[i][j] == '1') {
-                    grid[i][j] = '0';
-                    ++count;
-                    myNumIslands(grid, i, j, directions);
-                }
-            }
-        }
-
-        return count;
-    }
-
     // BSF
-    int numIslands(vector<vector<char>>& grid) {
+    int numIslands3(vector<vector<char>>& grid) {
         int m = grid.size();
         int n = grid[0].size();
         int count = 0;
@@ -118,21 +87,44 @@ public:
         return count;
     }
 
+    // DFS
+    int numIslands(vector<vector<char>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+
+        int count = 0;
+        directions = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (grid[i][j] == '1') {
+                    ++count;
+                    grid[i][j] = '0';
+                    myNumIslands(grid, i, j);
+                }
+            }
+        }
+
+        return count;
+    }
+
 private:
-    void myNumIslands(vector<vector<char>>& grid, int x, int y, const vector<vector<int>>& directions) {
+    void myNumIslands(vector<vector<char>>& grid, int x, int y) {
         int m = grid.size();
         int n = grid[0].size();
 
         for (int i = 0; i < directions.size(); ++i) {
             int nextX = directions[i][0] + x;
             int nextY = directions[i][1] + y;
-
             if (0 <= nextX && nextX < m && 0 <= nextY && nextY < n && grid[nextX][nextY] == '1') {
                 grid[nextX][nextY] = '0';
-                myNumIslands(grid, nextX, nextY, directions);
+                myNumIslands(grid, nextX, nextY);
             }
         }
     }
+
+private:
+    vector<vector<int>> directions;
 };
 
 int main() {
