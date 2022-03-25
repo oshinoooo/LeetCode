@@ -8,25 +8,20 @@ using namespace std;
 class Solution {
 public:
     string addStrings(string num1, string num2) {
-        int m = num1.size();
-        int n = num2.size();
-
-        int ptr1 = m - 1;
-        int ptr2 = n - 1;
-        int carry = 0;
         string out;
+        int carry = 0;
+        int ptr1 = num1.size() - 1;
+        int ptr2 = num2.size() - 1;
 
         while (0 <= ptr1 || 0 <= ptr2) {
-            int tmp;
-            if (0 <= ptr1 && 0 <= ptr2)
-                tmp = carry + num1[ptr1--] - '0' + num2[ptr2--] - '0';
-            else if (0 <= ptr1)
-                tmp = carry + num1[ptr1--] - '0';
-            else
-                tmp = carry + num2[ptr2--] - '0';
+            if (0 <= ptr1)
+                carry += num1[ptr1--] - '0';
 
-            out.push_back(tmp % 10 + '0');
-            carry = tmp / 10;
+            if (0 <= ptr2)
+                carry += num2[ptr2--] - '0';
+
+            out.push_back(carry % 10 + '0');
+            carry /= 10;
         }
 
         if (carry)
@@ -38,24 +33,20 @@ public:
     }
 
     string addStrings36(string num1, string num2) {
-        int m = num1.size();
-        int n = num2.size();
-
-        int ptr1 = m - 1;
-        int ptr2 = n - 1;
-        int carry = 0;
         string out;
+        int carry = 0;
+        int ptr1 = num1.size() - 1;
+        int ptr2 = num2.size() - 1;
 
         while (0 <= ptr1 || 0 <= ptr2) {
-            char tmp;
-            if (0 <= ptr1 && 0 <= ptr2)
-                tmp = adder(num1[ptr1--], num2[ptr2--], carry);
-            else if (0 <= ptr1)
-                tmp = adder(num1[ptr1--], '0', carry);
-            else
-                tmp = adder('0', num2[ptr2--], carry);
+            if (0 <= ptr1)
+                adder(num1[ptr1--], '0', carry);
 
-            out.push_back(tmp);
+            if (0 <= ptr2)
+                adder('0', num2[ptr2--], carry);
+
+            out.push_back(index[carry % 36]);
+            carry /= 36;
         }
 
         if (carry)
@@ -67,7 +58,7 @@ public:
     }
 
 private:
-     char adder(char a, char b, int& carry) {
+     void adder(char a, char b, int& carry) {
         if (isalpha(a))
             carry += a - 'a' + 10;
         else
@@ -77,12 +68,6 @@ private:
             carry += b - 'a' + 10;
         else
             carry += b - '0';
-
-        char out = index[carry % 36];
-
-        carry /= 36;
-
-        return out;
     }
 
 private:
