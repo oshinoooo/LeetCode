@@ -1,43 +1,34 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
 #include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int _val) : val(_val), next(nullptr) {}
+    ListNode(int _val, ListNode* _next) : val(_val), next(_next) {}
 };
 
 class Solution {
 public:
+    // 归并
     ListNode* mergeKLists1(vector<ListNode*>& lists) {
         if (lists.empty())
             return nullptr;
         return myMergeKLists(lists, 0, lists.size() - 1);
     }
 
+    // 优先队列
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         auto func = [](ListNode* node1, ListNode* node2){
             return node1->val > node2->val;
         };
         priority_queue<ListNode*, vector<ListNode*>, decltype(func)> pq(func);
 
-        for (auto head : lists) {
+        for (ListNode* head : lists) {
             while (head) {
                 pq.push(head);
                 head = head->next;
@@ -47,13 +38,15 @@ public:
         ListNode* newHead = new ListNode();
         ListNode* cur = newHead;
         while (!pq.empty()) {
-            auto node = pq.top();
+            cur->next = pq.top();
             pq.pop();
-            cur->next = node;
             cur = cur->next;
         }
+
         cur->next = nullptr;
-        return newHead->next;
+        ListNode* out = newHead->next;
+        delete newHead;
+        return out;
     }
 
 private:
@@ -61,8 +54,8 @@ private:
         if (head == tail)
             return lists[head];
         int mid = (head + tail) / 2;
-        auto list1 = myMergeKLists(lists, head, mid);
-        auto list2 = myMergeKLists(lists, mid + 1, tail);
+        ListNode* list1 = myMergeKLists(lists, head, mid);
+        ListNode* list2 = myMergeKLists(lists, mid + 1, tail);
         return merge(list1, list2);
     }
 
@@ -70,31 +63,26 @@ private:
         ListNode* newHead = new ListNode();
         ListNode* cur = newHead;
 
-        while (head1 || head2) {
-            if (head1 && head2) {
-                if (head1->val < head2->val) {
-                    cur->next = head1;
-                    head1 = head1->next;
-                }
-                else {
-                    cur->next = head2;
-                    head2 = head2->next;
-                }
-                cur = cur->next;
-            }
-            else if (head1) {
+        while (head1 && head2) {
+            if (head1->val < head2->val) {
                 cur->next = head1;
                 head1 = head1->next;
-                break;
             }
             else {
                 cur->next = head2;
                 head2 = head2->next;
-                break;
             }
+            cur = cur->next;
         }
 
-        return newHead->next;
+        if (head1)
+            cur->next = head1;
+        if (head2)
+            cur->next = head2;
+
+        ListNode* out = newHead->next;
+        delete newHead;
+        return out;
     }
 };
 
