@@ -72,6 +72,7 @@ int main() {
     n3->right = n7;
 
     Solution s;
+
     vector<int> out = s.inorderTraversal(n1);
     for (auto num : out)
         cout << num << " ";
