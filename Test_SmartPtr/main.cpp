@@ -47,7 +47,7 @@ public:
 
 class B {
 public:
-    weak_ptr<A> ptr;
+    shared_ptr<A> ptr;
 
     B() {
         cout << "B()" << endl;
@@ -92,9 +92,22 @@ int main() {
         b->ptr = a;
     }
 */
+    weak_ptr<A> wpA;
+    weak_ptr<B> wpB;
+
     {
-        shared_ptr<Solution> ptr(new Solution());
+        shared_ptr<A> spA(new A());
+        shared_ptr<B> spB(new B());
+
+        spA->ptr = spB;
+        spB->ptr = spA;
+
+        wpA = spA;
+        wpB = spB;
     }
+
+    cout << wpA.use_count() << endl;
+    cout << wpB.use_count() << endl;
     cout << "--------------------" << endl;
     return 0;
 }
