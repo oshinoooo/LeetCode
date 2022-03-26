@@ -1,6 +1,4 @@
 #include <iostream>
-#include <algorithm>
-#include <functional>
 #include <vector>
 #include <set>
 #include <unordered_set>
@@ -9,6 +7,8 @@
 #include <stack>
 #include <queue>
 #include <deque>
+#include <algorithm>
+#include <functional>
 
 using namespace std;
 
