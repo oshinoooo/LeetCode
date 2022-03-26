@@ -1,17 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
 #include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
@@ -59,7 +48,7 @@ public:
         return sum;
     }
 
-    int trap(vector<int>& height) {
+    int trap3(vector<int>& height) {
         int size = height.size();
         int sum = 0;
 
@@ -80,6 +69,25 @@ public:
         }
 
         return sum;
+    }
+
+    int trap(vector<int>& height) {
+        int n = height.size();
+
+        vector<int> left(n, 0);
+        for (int i = 1; i < n; ++i)
+            left[i] = max(left[i - 1], height[i - 1]);
+
+        vector<int> right(n, 0);
+        for (int i = n - 2; 0 <= i; --i)
+            right[i] = max(right[i + 1], height[i + 1]);
+
+        int maxSum = 0;
+
+        for (int i = 0; i < n; ++i)
+            maxSum += max(0, min(left[i], right[i]) - height[i]);
+
+        return maxSum;
     }
 };
 

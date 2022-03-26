@@ -67,7 +67,7 @@ public:
         return dp.size();
     }
 
-    int lengthOfLIS(vector<int>& nums) {
+    int lengthOfLIS4(vector<int>& nums) {
         int n = nums.size();
 
         vector<int> dp = {nums[0]};
@@ -93,12 +93,28 @@ public:
 
         return dp.size();
     }
+
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        int maxLength = 0;
+        vector<int> dp(n, 1);
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (nums[j] < nums[i])
+                    dp[i] = max(dp[i], dp[j] + 1);
+            }
+            maxLength = max(maxLength, dp[i]);
+        }
+
+        return maxLength;
+    }
 };
 
 int main() {
     cout << "---------------------" << endl;
     Solution s;
-    vector<int> nums = {3,5,6,2,5,4,19,5,6,7,12};
+    vector<int> nums = {0,1,0,3,2,3};
     cout << s.lengthOfLIS(nums) << endl;
     cout << "---------------------" << endl;
     return 0;
