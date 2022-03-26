@@ -94,7 +94,7 @@ public:
         return dp.size();
     }
 
-    int lengthOfLIS(vector<int>& nums) {
+    int lengthOfLIS5(vector<int>& nums) {
         int n = nums.size();
         int maxLength = 0;
         vector<int> dp(n, 1);
@@ -103,6 +103,24 @@ public:
             for (int j = 0; j < i; ++j) {
                 if (nums[j] < nums[i])
                     dp[i] = max(dp[i], dp[j] + 1);
+            }
+            maxLength = max(maxLength, dp[i]);
+        }
+
+        return maxLength;
+    }
+
+    int lengthOfLIS(vector<int>& nums) {
+        int maxLength = 0;
+
+        int n = nums.size();
+        vector<int> dp(n, 1);
+
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (nums[j] < nums[i]) {
+                    dp[i] = max(dp[i], dp[j] + 1);
+                }
             }
             maxLength = max(maxLength, dp[i]);
         }
