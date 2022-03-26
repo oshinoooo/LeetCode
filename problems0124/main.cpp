@@ -24,12 +24,12 @@ private:
         if (!root)
             return 0;
 
-        int leftMax = max(0, myMaxPathSum(root->left, maxSum));
-        int rightMax = max(0, myMaxPathSum(root->right, maxSum));
+        int left = max(0, myMaxPathSum(root->left, maxSum));
+        int right = max(0, myMaxPathSum(root->right, maxSum));
 
-        maxSum = max(maxSum, root->val + leftMax + rightMax);
+        maxSum = max(maxSum, root->val + left + right);
 
-        return root->val + max(leftMax, rightMax);
+        return root->val + max(left, right);
     }
 };
 
