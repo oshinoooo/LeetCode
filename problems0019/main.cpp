@@ -1,31 +1,18 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
 struct ListNode {
     int val;
-    ListNode *next;
+    ListNode* next;
     ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+    ListNode(int _val) : val(_val), next(nullptr) {}
+    ListNode(int _val, ListNode* _next) : val(_val), next(_next) {}
 };
 
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode* removeNthFromEnd1(ListNode* head, int n) {
         ListNode* newHead = new ListNode(0, head);
         ListNode* prev;
         ListNode* slow = newHead;
@@ -44,10 +31,35 @@ public:
 
         return newHead->next;
     }
+
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* newHead = new ListNode(0, head);
+        ListNode* prev = newHead;
+        ListNode* slow = newHead;
+        ListNode* fast = newHead;
+
+        for (int i = 0; i < n; ++i) {
+            if (!fast)
+                return nullptr;
+            fast = fast->next;
+        }
+
+        while (fast) {
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next;
+        }
+
+        prev->next = slow->next;
+        delete slow;
+        ListNode* out = newHead->next;
+        delete newHead;
+        return out;
+    }
 };
 
 int main() {
-    cout << "---------------------" << endl;
+    cout << "--------------------" << endl;
     ListNode* n1 = new ListNode(1);
     ListNode* n2 = new ListNode(2);
     ListNode* n3 = new ListNode(3);
@@ -72,6 +84,6 @@ int main() {
         n0 = n0->next;
     }
     cout << endl;
-    cout << "---------------------" << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
