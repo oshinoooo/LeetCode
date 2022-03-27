@@ -149,6 +149,7 @@ private:
     vector<vector<int>> directions;
 };
 
+// 从顶往下走 问怎么走下来分数最高
 void test1() {
     int m = 0;
     int n = 0;
@@ -164,6 +165,7 @@ void test1() {
     cout << s.pathSum(nums) << endl;
 }
 
+// 选k个礼物 要让礼物之间的价值差最大化
 void test2() {
     long long m = 0;
     long long k = 0;
@@ -177,6 +179,7 @@ void test2() {
     cout << s.maxGapPresent(nums, k) << endl;
 }
 
+// 彩色区间 连续的越长 取出来分数越高 问怎么取
 void test3() {
     int n = 0;
     cin >> n;
