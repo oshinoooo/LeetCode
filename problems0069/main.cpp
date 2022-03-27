@@ -1,17 +1,4 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
@@ -57,7 +44,7 @@ public:
     }
 
     // 牛顿
-    double mySqrt(int x) {
+    double mySqrt3(int x) {
         if (x == 0)
             return 0;
 
@@ -70,6 +57,25 @@ public:
         }
 
         return -1;
+    }
+
+    double mySqrt(int x) {
+        double left = 0;
+        double right = x;
+
+        while (left <= right) {
+            double mid = left + (right - left) / 2;
+            double pow = mid * mid;
+
+            if (pow == x)
+                return mid;
+            else if (pow < x)
+                left = mid + 0.0000000001;
+            else
+                right = mid - 0.0000000001;
+        }
+
+        return right;
     }
 };
 
