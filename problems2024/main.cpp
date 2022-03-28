@@ -12,21 +12,14 @@ public:
 
 private:
     int myMaxConsecutiveAnswers(const string& answerKey, const int& k, const char& c) {
+        int n = answerKey.length();
         int maxLength = 0;
-        int tmpLength = 0;
-        int head = 0;
-        int count = 0;
 
-        int n = answerKey.size();
-        for (int i = 0; i < n; ++i) {
-            if (answerKey[i] == c) {
-                ++count;
-                while (k < count) {
-                    ++head;
-                }
-            }
-
-            maxLength = max(maxLength, i - head + 1);
+        for (int left = 0, right = 0, sum = 0; right < n; right++) {
+            sum += answerKey[right] != c;
+            while (sum > k)
+                sum -= answerKey[left++] != c;
+            maxLength = max(maxLength, right - left + 1);
         }
 
         return maxLength;
