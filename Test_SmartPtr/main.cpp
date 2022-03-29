@@ -9,6 +9,10 @@ public:
         cout << "Solution()" << endl;
     }
 
+    Solution(int _number) : number(_number) {
+        cout << "Solution()" << endl;
+    }
+
     ~Solution() {
         cout << "~Solution()" << endl;
     }
