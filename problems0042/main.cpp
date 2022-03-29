@@ -71,7 +71,7 @@ public:
         return sum;
     }
 
-    int trap(vector<int>& height) {
+    int trap4(vector<int>& height) {
         int n = height.size();
 
         vector<int> left(n, 0);
@@ -88,6 +88,34 @@ public:
             maxSum += max(0, min(left[i], right[i]) - height[i]);
 
         return maxSum;
+    }
+
+    int trap(vector<int>& height) {
+        int n = height.size();
+        int head = 0;
+        int tail = n - 1;
+        int sum = 0;
+        int headMax = 0;
+        int tailMax = 0;
+
+        while (head < tail) {
+            if (height[head] < height[tail]) {
+                if (height[head] < headMax)
+                    sum += headMax - height[head];
+                else
+                    headMax = height[head];
+                ++head;
+            }
+            else {
+                if (height[tail] < tailMax)
+                    sum += tailMax - height[tail];
+                else
+                    tailMax = height[tail];
+                --tail;
+            }
+        }
+
+        return sum;
     }
 };
 
