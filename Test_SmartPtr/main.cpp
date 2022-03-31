@@ -62,24 +62,22 @@ public:
     }
 };
 
-int main() {
-    cout << "--------------------" << endl;
-/*
+void test1() {
     {
         Solution::SolutionAutoPtr p1(new Solution());
-        Solution::SolutionAutoPtr p2 = s1;
+        Solution::SolutionAutoPtr p2 = p1;
         cout << p2->getNumber() << endl;
         cout << p1->getNumber() << endl;
     }
     {
-        Solution::SolutionUniquePtr p1(new Solution());
-        Solution::SolutionUniquePtr p2 = s1;
-        cout << p2->getNumber() << endl;
-        cout << p1->getNumber() << endl;
+//        Solution::SolutionUniquePtr p1(new Solution());
+//        Solution::SolutionUniquePtr p2 = p1;
+//        cout << p2->getNumber() << endl;
+//        cout << p1->getNumber() << endl;
     }
     {
         Solution::SolutionSharedPtr p1(new Solution());
-        Solution::SolutionSharedPtr p2 = s1;
+        Solution::SolutionSharedPtr p2 = p1;
         cout << p1->getNumber() << endl;
         cout << p2->getNumber() << endl;
     }
@@ -95,23 +93,29 @@ int main() {
         a->ptr = b;
         b->ptr = a;
     }
-*/
-    weak_ptr<A> wpA;
-    weak_ptr<B> wpB;
-
     {
-        shared_ptr<A> spA(new A());
-        shared_ptr<B> spB(new B());
+        weak_ptr<A> wpA;
+        weak_ptr<B> wpB;
 
-        spA->ptr = spB;
-        spB->ptr = spA;
+        {
+            shared_ptr<A> spA(new A());
+            shared_ptr<B> spB(new B());
 
-        wpA = spA;
-        wpB = spB;
+            spA->ptr = spB;
+            spB->ptr = spA;
+
+            wpA = spA;
+            wpB = spB;
+        }
+
+        cout << wpA.use_count() << endl;
+        cout << wpB.use_count() << endl;
     }
+}
 
-    cout << wpA.use_count() << endl;
-    cout << wpB.use_count() << endl;
+int main() {
+    cout << "--------------------" << endl;
+    test1();
     cout << "--------------------" << endl;
     return 0;
 }
