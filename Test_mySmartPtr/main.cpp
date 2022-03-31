@@ -5,7 +5,7 @@ using namespace std;
 
 class Solution {
 public:
-    Solution() {
+    Solution() : number(0) {
         cout << "Solution()" << endl;
     }
 
@@ -64,10 +64,6 @@ public:
         ++use_count_ptr->shared_count_ptr;
     }
 
-    long use_count() {
-        return use_count_ptr->shared_count_ptr;
-    }
-
     ~my_shared_ptr() {
         cout << "~my_shared_ptr()" << endl;
         if (--use_count_ptr->shared_count_ptr == 0) {
@@ -79,6 +75,14 @@ public:
             cout << "delete use_count_ptr" << endl;
             delete use_count_ptr;
         }
+    }
+
+    long use_count() {
+        return use_count_ptr->shared_count_ptr;
+    }
+
+    class_type* get_object_ptr() {
+        return object_ptr;
     }
 
 private:
@@ -113,9 +117,17 @@ void test1() {
     }
 }
 
+void test2() {
+    my_shared_ptr<Solution> ptr1(new Solution());
+    cout << ptr1.get_object_ptr()->getNumber() << endl;
+    ptr1.get_object_ptr()->setNumber(100);
+    cout << ptr1.get_object_ptr()->getNumber() << endl;
+}
+
 int main() {
     cout << "--------------------" << endl;
-    test1();
+//    test1();
+    test2();
     cout << "--------------------" << endl;
     return 0;
 }
