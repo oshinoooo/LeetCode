@@ -1,50 +1,41 @@
 #include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
 
 using namespace std;
 
 struct TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
+    TreeNode* left;
+    TreeNode* right;
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
+    TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
+
+void showTree(TreeNode* root) {
+    if (!root) return;
+    showTree(root->left);
+    cout << root->val << " ";
+    showTree(root->right);
+}
 
 class Solution {
 public:
     TreeNode* pruneTree(TreeNode* root) {
-        if (myPruneTree(root))
-            return root;
-        return nullptr;
+        return myPruneTree(root);
     }
 
 private:
-    int myPruneTree(TreeNode* root) {
+    TreeNode* myPruneTree(TreeNode*& root) {
         if (!root)
-            return 0;
+            return nullptr;
 
-        int valueLeft = myPruneTree(root->left);
-        if (valueLeft == 0)
-            root->left = nullptr;
+        myPruneTree(root->left);
+        myPruneTree(root->right);
 
-        int valueRight = myPruneTree(root->right);
-        if (valueRight == 0)
-            root->right = nullptr;
+        if (!root->left && !root->right && root->val == 0)
+            root = nullptr;
 
-        return valueLeft + valueRight + root->val;
+        return root;
     }
 };
 
@@ -65,8 +56,14 @@ int main() {
     n3->left = n6;
     n3->right = n7;
 
+    showTree(n1);
+    cout << endl;
+
     Solution s;
     TreeNode* n0 = s.pruneTree(n1);
+
+    showTree(n0);
+    cout << endl;
     cout << "---------------------" << endl;
     return 0;
 }

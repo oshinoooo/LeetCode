@@ -31,7 +31,7 @@ struct TreeNode {
 };
 
 void showTree(TreeNode* root) {
-    if (root == nullptr) return;
+    if (!root) return;
     showTree(root->left);
     cout << root->val << " ";
     showTree(root->right);
