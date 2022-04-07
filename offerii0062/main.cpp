@@ -1,33 +1,23 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
-#include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
 
 using namespace std;
 
 class Trie {
 public:
     Trie() {
-        chars = vector<Trie*>(26, nullptr);
         end = false;
+        children.resize(26, nullptr);
     }
 
     void insert(string word) {
         Trie* node = this;
 
-        for (auto& c : word) {
-            if (!node->chars[c - 'a'])
-                node->chars[c - 'a'] = new Trie();
-            node = node->chars[c - 'a'];
+        for (const char& c : word) {
+            int index = c - 'a';
+            if (!node->children[index])
+                node->children[index] = new Trie();
+            node = node->children[index];
         }
 
         node->end = true;
@@ -36,10 +26,11 @@ public:
     bool search(string word) {
         Trie* node = this;
 
-        for (auto& c : word) {
-            if (!node->chars[c - 'a'])
+        for (const char& c : word) {
+            int index = c - 'a';
+            if (!node->children[index])
                 return false;
-            node = node->chars[c - 'a'];
+            node = node->children[index];
         }
 
         return node->end;
@@ -48,33 +39,30 @@ public:
     bool startsWith(string prefix) {
         Trie* node = this;
 
-        for (auto& c : prefix) {
-            if (!node->chars[c - 'a'])
+        for (const char& c : prefix) {
+            int index = c - 'a';
+            if (!node->children[index])
                 return false;
-            node = node->chars[c - 'a'];
+            node = node->children[index];
         }
 
         return true;
     }
 
 private:
-    vector<Trie*> chars;
     bool end;
+    vector<Trie*> children;
 };
 
 int main() {
-    cout << "---------------------" << endl;
+    cout << "--------------------" << endl;
     Trie trie;
-
     trie.insert("apple");
     cout << trie.search("apple") << endl;
     cout << trie.search("app") << endl;
-
     cout << trie.startsWith("app") << endl;
-
     trie.insert("app");
     cout << trie.search("app") << endl;
-
-    cout << "---------------------" << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
