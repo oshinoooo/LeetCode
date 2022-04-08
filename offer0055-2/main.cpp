@@ -14,7 +14,7 @@ struct TreeNode {
 
 class Solution {
 public:
-    bool isBalanced(TreeNode* root) {
+    bool isBalanced1(TreeNode* root) {
         if (!root)
             return true;
 
@@ -27,11 +27,30 @@ public:
         return isBalanced(root->left) && isBalanced(root->right);
     }
 
-private:
     int getDepth(TreeNode* root) {
-        if (!root) return 0;
+        if (!root)
+            return 0;
+
         int left = getDepth(root->left);
         int right = getDepth(root->right);
+
+        return max(left, right) + 1;
+    }
+
+    bool isBalanced(TreeNode* root) {
+        return -1 != height(root);
+    }
+
+    int height(TreeNode* root) {
+        if (!root)
+            return 0;
+
+        int left = height(root->left);
+        int right = height(root->right);
+
+        if (left == -1 || right == -1 || 1 < abs(left - right))
+            return -1;
+
         return max(left, right) + 1;
     }
 };

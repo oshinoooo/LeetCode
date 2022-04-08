@@ -13,6 +13,23 @@ struct TreeNode {
 
 class Solution {
 public:
+    bool isSubStructure1(TreeNode* A, TreeNode* B) {
+        if (!A || !B)
+            return false;
+
+        return myIsSubStructure(A, B) || isSubStructure(A->left, B) || isSubStructure(A->right, B);
+    }
+
+    bool myIsSubStructure1(TreeNode*A, TreeNode*B) {
+        if (!B)
+            return true;
+
+        if (!A || A->val != B->val)
+            return false;
+
+        return myIsSubStructure(A->left, B->left) && myIsSubStructure(A->right, B->right);
+    }
+
     bool isSubStructure(TreeNode* A, TreeNode* B) {
         if (!A || !B)
             return false;
