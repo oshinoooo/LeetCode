@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
-project(offer0055_2_windows)
+
+project(offer0055_2)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(offer0055_2_windows main.cpp)
+add_executable(offer0055_2 main.cpp)
