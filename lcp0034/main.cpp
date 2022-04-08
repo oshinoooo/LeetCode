@@ -26,7 +26,8 @@ public:
             for(auto& [rcnt, rv]: colored[root->right]) {
                 // 当前节点不染色
                 uncolored[root] = max(uncolored[root], lv+rv);
-                if(lcnt + rcnt + 1 > k) continue;
+                if(lcnt + rcnt + 1 > k)
+                    continue;
                 // 当前节点染色
                 colored[root][lcnt+rcnt+1] = max(colored[root][lcnt+rcnt+1], lv+rv+root->val);
             }
@@ -36,7 +37,8 @@ public:
         for(auto& [rcnt, rv]: colored[root->right]) {
             // 当前节点不染色
             uncolored[root] = max(uncolored[root], uncolored[root->left]+rv);
-            if(rcnt + 1 > k) continue;
+            if(rcnt + 1 > k)
+                continue;
             // 当前节点染色
             colored[root][rcnt+1] = max(colored[root][rcnt+1], uncolored[root->left]+rv+root->val);
         }
@@ -45,10 +47,12 @@ public:
         for(auto& [lcnt, lv]: colored[root->left]) {
             // 当前节点不染色
             uncolored[root] = max(uncolored[root], uncolored[root->right]+lv);
-            if(lcnt + 1 > k) continue;
+            if(lcnt + 1 > k)
+                continue;
             // 当前节点染色
             colored[root][lcnt+1] = max(colored[root][lcnt+1], uncolored[root->right]+lv+root->val);
         }
+
         // 4、左右子树都不染色
         // 当前节点不染色
         uncolored[root] = max(uncolored[root], uncolored[root->left]+uncolored[root->right]);
