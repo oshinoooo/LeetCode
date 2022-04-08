@@ -15,7 +15,24 @@ struct TreeNode {
 class Solution {
 public:
     bool isBalanced(TreeNode* root) {
+        if (!root)
+            return true;
 
+        int left = getDepth(root->left);
+        int right = getDepth(root->right);
+
+        if (1 < abs(left - right))
+            return false;
+
+        return isBalanced(root->left) && isBalanced(root->right);
+    }
+
+private:
+    int getDepth(TreeNode* root) {
+        if (!root) return 0;
+        int left = getDepth(root->left);
+        int right = getDepth(root->right);
+        return max(left, right) + 1;
     }
 };
 
@@ -26,15 +43,11 @@ int main() {
     TreeNode* n3 = new TreeNode(6);
     TreeNode* n4 = new TreeNode(1);
     TreeNode* n5 = new TreeNode(3);
-    TreeNode* n6 = new TreeNode(5);
-    TreeNode* n7 = new TreeNode(7);
 
     n1->left = n2;
     n1->right = n3;
     n2->left = n4;
     n2->right = n5;
-    n3->left = n6;
-    n3->right = n7;
 
     Solution s;
     cout << s.isBalanced(n1) << endl;
