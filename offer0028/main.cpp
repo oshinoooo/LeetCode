@@ -22,10 +22,7 @@ private:
         if (!left && !right)
             return true;
 
-        if (!left || !right)
-            return false;
-
-        if (left->val != right->val)
+        if (!left || !right || left->val != right->val)
             return false;
 
         return myIsSymmetric(left->left, right->right) && myIsSymmetric(left->right, right->left);
