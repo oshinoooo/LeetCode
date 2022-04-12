@@ -1,62 +1,51 @@
 #include <iostream>
-#include <algorithm>
-#include <set>
 #include <vector>
-#include <ctime>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
-class RandomizedSet
-{
+class RandomizedSet {
 public:
-    RandomizedSet()
-    {
-        srand(time(0));
+    RandomizedSet() {
+        srand((unsigned)time(NULL));
     }
 
-    bool insert(int val)
-    {
-        if (m_positions.count(val))
+    bool insert(int val) {
+        if (indices.count(val)) {
             return false;
-
-        m_positions.insert({val, m_data.size()});
-        m_data.push_back(val);
+        }
+        int index = nums.size();
+        nums.emplace_back(val);
+        indices[val] = index;
         return true;
     }
 
-    bool remove(int val)
-    {
-        if (!m_positions.count(val))
+    bool remove(int val) {
+        if (!indices.count(val)) {
             return false;
-
-        swap(m_data[m_positions[val]], m_data[m_data.size() - 1]);
-        m_positions[m_data[m_positions[val]]] = m_positions[val];
-        m_data.pop_back();
-        m_positions.erase(val);
+        }
+        int index = indices[val];
+        int last = nums.back();
+        nums[index] = last;
+        indices[last] = index;
+        nums.pop_back();
+        indices.erase(val);
         return true;
     }
 
-    int getRandom()
-    {
-        return m_data[rand() % m_data.size()];
+    int getRandom() {
+        int randomIndex = rand()%nums.size();
+        return nums[randomIndex];
     }
-
 private:
-    map<int, int> m_positions;
-    vector<int> m_data;
+    vector<int> nums;
+    unordered_map<int, int> indices;
 };
 
-int main()
-{
-    cout << "------------------" << endl;
-    RandomizedSet r;
-    cout << r.insert(1) << endl;
-    cout << r.remove(2) << endl;
-    cout << r.insert(2) << endl;
-    cout << r.getRandom() << endl;
-    cout << r.remove(1) << endl;
-    cout << r.insert(2) << endl;
-    cout << "------------------" << endl;
+int main() {
+    cout << "--------------------" << endl;
+    RandomizedSet randomizedSet;
+    cout << "" << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
