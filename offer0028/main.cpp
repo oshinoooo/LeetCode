@@ -50,4 +50,4 @@ int main() {
     cout << s.isSymmetric(n1) << endl;
     cout << "--------------------" << endl;
     return 0;
-}
+}103685

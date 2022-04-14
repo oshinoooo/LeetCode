@@ -3,19 +3,16 @@
 
 using namespace std;
 
-class Solution
-{
+class Solution {
 public:
-    int removeElement(vector<int>& nums, int val)
-    {
-        if (nums.empty()) return 0;
+    int removeElement(vector<int>& nums, int val) {
+        if (nums.empty())
+            return 0;
 
         int tail = nums.size() - 1;
         int cur = 0;
-        while (cur <= tail)
-        {
-            if (nums[cur] == val)
-            {
+        while (cur <= tail) {
+            if (nums[cur] == val) {
                 swap(nums[cur], nums[tail]);
                 --tail;
             }
