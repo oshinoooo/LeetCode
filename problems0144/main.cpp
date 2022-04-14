@@ -1,17 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <unordered_set>
 #include <stack>
-#include <queue>
-#include <deque>
-#include <algorithm>
-#include <cctype>
-#include <numeric>
-#include <math.h>
-#include <ctime>
 
 using namespace std;
 
@@ -19,10 +8,9 @@ struct TreeNode {
     int val;
     TreeNode* left;
     TreeNode* right;
-
     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int value) : val(value), left(nullptr), right(nullptr) {}
-    TreeNode(int value, TreeNode* l, TreeNode* r) : val(value), left(l), right(r) {}
+    TreeNode(int _val) : val(_val), left(nullptr), right(nullptr) {}
+    TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
 
 class Solution {
@@ -65,7 +53,7 @@ private:
 };
 
 int main() {
-    cout << "---------------------" << endl;
+    cout << "--------------------" << endl;
     TreeNode* n1 = new TreeNode(1);
     TreeNode* n2 = new TreeNode(2);
     TreeNode* n3 = new TreeNode(3);
@@ -86,6 +74,6 @@ int main() {
     for (auto num : out)
         cout << num << " ";
     cout << endl;
-    cout << "---------------------" << endl;
+    cout << "--------------------" << endl;
     return 0;
 }
