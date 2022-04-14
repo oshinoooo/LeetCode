@@ -18,21 +18,15 @@ public:
         return myIsBalanced(root) != -1;
     }
 
-    bool isBalanced2(TreeNode* root) {
-
-    }
-
 private:
     int myIsBalanced(TreeNode* root) {
         if (!root)
             return 0;
 
         int leftDepth = myIsBalanced(root->left);
-        if (leftDepth == -1)
-            return -1;
-
         int rightDepth = myIsBalanced(root->right);
-        if (rightDepth == -1 || 1 < abs(leftDepth - rightDepth))
+
+        if (leftDepth == -1 || rightDepth == -1 || 1 < abs(leftDepth - rightDepth))
             return -1;
 
         return max(leftDepth, rightDepth) + 1;
