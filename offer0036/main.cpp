@@ -12,52 +12,52 @@ struct TreeNode {
     TreeNode(int _val, TreeNode* _left, TreeNode* _right) : val(_val), left(_left), right(_right) {}
 };
 
-void showTree(TreeNode* root) {
-    if (!root) return;
-    showTree(root->left);
-    cout << root->val << " ";
-    showTree(root->right);
-}
-
 typedef TreeNode Node;
 
 class Solution {
 public:
     Node* treeToDoublyList(Node* root) {
-        if(root == nullptr)
+        if(!root)
             return nullptr;
+
         dfs(root);
+
         head->left = pre;
         pre->right = head;
+
         return head;
     }
 
 private:
-    Node *pre, *head;
     void dfs(Node* cur) {
-        if(cur == nullptr)
+        if(!cur)
             return;
 
         dfs(cur->left);
 
-        if(pre != nullptr)
+        if(pre)
             pre->right = cur;
         else
             head = cur;
 
         cur->left = pre;
         pre = cur;
+
         dfs(cur->right);
     }
+
+private:
+    Node* pre;
+    Node* head;
 };
 
 int main() {
     cout << "--------------------" << endl;
-    TreeNode* n1 = new TreeNode(4);
-    TreeNode* n2 = new TreeNode(2);
-    TreeNode* n3 = new TreeNode(5);
-    TreeNode* n4 = new TreeNode(1);
-    TreeNode* n5 = new TreeNode(3);
+    Node* n1 = new TreeNode(4);
+    Node* n2 = new TreeNode(2);
+    Node* n3 = new TreeNode(5);
+    Node* n4 = new TreeNode(1);
+    Node* n5 = new TreeNode(3);
 
     n1->left = n2;
     n1->right = n3;
@@ -66,9 +66,7 @@ int main() {
 
     Solution s;
 
-    TreeNode* n0 = s.treeToDoublyList(n1);
-    showTree(n0);
-    cout << endl;
+    TreeNode* n0 = (TreeNode*)s.treeToDoublyList(n1);
     cout << "--------------------" << endl;
     return 0;
 }
