@@ -157,6 +157,27 @@ void test6() {
         cout << 2 << endl;
 }
 
+struct s1 {
+    int num1;
+    int num2;
+    s1() : num1(1), num2(2) {}
+};
+
+struct s2 {
+    s1 array[10];
+};
+
+void test7() {
+    s2 test;
+
+    cout << "================" << endl;
+    for (int i = 0; i < 10; ++i) {
+        cout << test.array[i].num1 << endl;
+        cout << test.array[i].num2 << endl;
+        cout << "================" << endl;
+    }
+}
+
 int main() {
     cout << "----------------------------------------" << endl;
 //    test1();
@@ -164,7 +185,8 @@ int main() {
 //    test3();
 //    test4();
 //    test5();
-    test6();
+//    test6();
+    test7();
     cout << "----------------------------------------" << endl;
     return 0;
 }
